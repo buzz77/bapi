@@ -536,7 +536,7 @@ const RegisterForm = () => {
                   <>
                     <Form.Input
                       field='email'
-                      label={t('邮箱')}
+                      label={t('目前仅支持gmail邮箱注册')}
                       placeholder={t('输入邮箱地址')}
                       name='email'
                       type='email'

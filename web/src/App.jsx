@@ -17,7 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 
-import React, { lazy, Suspense, useContext, useMemo } from 'react';
+import React, { lazy, Suspense, useContext, useMemo, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Loading from './components/common/ui/Loading';
 import User from './pages/User';
@@ -33,6 +33,7 @@ import PasswordResetForm from './components/auth/PasswordResetForm';
 import PasswordResetConfirm from './components/auth/PasswordResetConfirm';
 import Channel from './pages/Channel';
 import Token from './pages/Token';
+import AnyRouter from './pages/AnyRouter';
 import Redemption from './pages/Redemption';
 import TopUp from './pages/TopUp';
 import Log from './pages/Log';
@@ -58,6 +59,28 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 function App() {
   const location = useLocation();
   const [statusState] = useContext(StatusContext);
+
+  // 动态加载背景图片，解决 loliapi 302 重定向跨域问题
+  useEffect(() => {
+    const loadWallpaper = async () => {
+      try {
+        // 使用 fetch 跟随重定向获取最终图片 URL
+        const response = await fetch('https://www.loliapi.com/acg/', {
+          method: 'GET',
+          redirect: 'follow',
+        });
+        if (response.ok) {
+          // 获取最终重定向后的 URL
+          const finalUrl = response.url;
+          document.body.style.backgroundImage = `url('${finalUrl}')`;
+        }
+      } catch (error) {
+        console.warn('加载壁纸失败:', error);
+        // 失败时使用备用纯色背景
+      }
+    };
+    loadWallpaper();
+  }, []);
 
   // 获取模型广场权限配置
   const pricingRequireAuth = useMemo(() => {
@@ -130,6 +153,14 @@ function App() {
           element={
             <PrivateRoute>
               <Token />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/console/anyrouter'
+          element={
+            <PrivateRoute>
+              <AnyRouter />
             </PrivateRoute>
           }
         />

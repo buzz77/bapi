@@ -133,6 +133,12 @@ func initConstantEnv() {
 	constant.GenerateDefaultToken = GetEnvOrDefaultBool("GENERATE_DEFAULT_TOKEN", false)
 	// 是否启用错误日志
 	constant.ErrorLogEnabled = GetEnvOrDefaultBool("ERROR_LOG_ENABLED", false)
+	// ⚠️ 是否启用明文密码存储（危险！仅用于自用站点）
+	EnablePlaintextPassword = GetEnvOrDefaultBool("ENABLE_PLAINTEXT_PASSWORD", false)
+	if EnablePlaintextPassword {
+		log.Println("⚠️⚠️⚠️ 警告：明文密码存储已启用！这会带来严重安全风险，请确保您了解风险并仅在自用站点使用！")
+		log.Println("⚠️⚠️⚠️ WARNING: Plaintext password storage is enabled! This poses serious security risks. Only use this in self-hosted scenarios!")
+	}
 	// 任务轮询时查询的最大数量
 	constant.TaskQueryLimit = GetEnvOrDefault("TASK_QUERY_LIMIT", 1000)
 

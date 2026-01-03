@@ -44,6 +44,7 @@ const routerMap = {
   detail: '/console',
   pricing: '/pricing',
   task: '/console/task',
+  anyrouter: '/console/anyrouter',
   models: '/console/models',
   deployment: '/console/deployment',
   playground: '/console/playground',
@@ -103,6 +104,11 @@ const SiderBar = ({ onNavigate = () => {} }) => {
         to: '/task',
         className:
           localStorage.getItem('enable_task') === 'true' ? '' : 'tableHiddle',
+      },
+      {
+        text: t('AnyRouter反代优选'),
+        itemKey: 'anyrouter',
+        to: '/anyrouter',
       },
     ];
 
