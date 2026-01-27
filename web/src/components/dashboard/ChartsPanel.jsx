@@ -38,10 +38,10 @@ const ChartsPanel = ({
   return (
     <Card
       {...CARD_PROPS}
-      className={`!rounded-2xl ${hasApiInfoPanel ? 'lg:col-span-3' : ''}`}
+      className={`bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] ${hasApiInfoPanel ? 'lg:col-span-3' : ''}`}
       title={
         <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between w-full gap-3'>
-          <div className={FLEX_CENTER_GAP2}>
+          <div className={`${FLEX_CENTER_GAP2} text-[var(--semi-color-text-0)] font-medium`}>
             <PieChart size={16} />
             {t('模型数据分析')}
           </div>
@@ -59,7 +59,7 @@ const ChartsPanel = ({
       }
       bodyStyle={{ padding: 0 }}
     >
-      <div className='h-96 p-2'>
+      <div className='h-96 p-4'>
         {activeChartTab === '1' && (
           <VChart spec={spec_line} option={CHART_CONFIG} />
         )}

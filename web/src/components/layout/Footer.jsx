@@ -42,9 +42,7 @@ const FooterBar = () => {
 
   const customFooter = useMemo(
     () => (
-      <footer className='relative h-auto py-16 px-6 md:px-24 w-full flex flex-col items-center justify-between overflow-hidden'>
-        <div className='absolute hidden md:block top-[204px] left-[-100px] w-[151px] h-[151px] rounded-full bg-[#FFD166]'></div>
-        <div className='absolute md:hidden bottom-[20px] left-[-50px] w-[80px] h-[80px] rounded-full bg-[#FFD166] opacity-60'></div>
+      <footer className='bg-[var(--semi-color-bg-1)] border-t border-[var(--semi-color-border)] py-12 px-6 md:px-24 w-full flex flex-col items-center justify-between'>
 
         {isDemoSiteMode && (
           <div className='flex flex-col md:flex-row justify-between w-full max-w-[1110px] mb-10 gap-8'>
@@ -58,7 +56,7 @@ const FooterBar = () => {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full'>
               <div className='text-left'>
-                <p className='!text-semi-color-text-0 font-semibold mb-5'>
+                <p className='text-[var(--semi-color-text-0)] font-semibold mb-5'>
                   {t('关于我们')}
                 </p>
                 <div className='flex flex-col gap-4'>
@@ -66,7 +64,7 @@ const FooterBar = () => {
                     href='https://docs.newapi.pro/wiki/project-introduction/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     {t('关于项目')}
                   </a>
@@ -74,7 +72,7 @@ const FooterBar = () => {
                     href='https://docs.newapi.pro/support/community-interaction/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     {t('联系我们')}
                   </a>
@@ -82,7 +80,7 @@ const FooterBar = () => {
                     href='https://docs.newapi.pro/wiki/features-introduction/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     {t('功能特性')}
                   </a>
@@ -90,7 +88,7 @@ const FooterBar = () => {
               </div>
 
               <div className='text-left'>
-                <p className='!text-semi-color-text-0 font-semibold mb-5'>
+                <p className='text-[var(--semi-color-text-0)] font-semibold mb-5'>
                   {t('文档')}
                 </p>
                 <div className='flex flex-col gap-4'>
@@ -98,7 +96,7 @@ const FooterBar = () => {
                     href='https://docs.newapi.pro/getting-started/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     {t('快速开始')}
                   </a>
@@ -106,7 +104,7 @@ const FooterBar = () => {
                     href='https://docs.newapi.pro/installation/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     {t('安装指南')}
                   </a>
@@ -114,7 +112,7 @@ const FooterBar = () => {
                     href='https://docs.newapi.pro/api/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     {t('API 文档')}
                   </a>
@@ -122,7 +120,7 @@ const FooterBar = () => {
               </div>
 
               <div className='text-left'>
-                <p className='!text-semi-color-text-0 font-semibold mb-5'>
+                <p className='text-[var(--semi-color-text-0)] font-semibold mb-5'>
                   {t('相关项目')}
                 </p>
                 <div className='flex flex-col gap-4'>
@@ -130,7 +128,7 @@ const FooterBar = () => {
                     href='https://github.com/songquanpeng/one-api'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     One API
                   </a>
@@ -138,7 +136,7 @@ const FooterBar = () => {
                     href='https://github.com/novicezk/midjourney-proxy'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     Midjourney-Proxy
                   </a>
@@ -146,7 +144,7 @@ const FooterBar = () => {
                     href='https://github.com/Calcium-Ion/neko-api-key-tool'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='!text-semi-color-text-1'
+                    className='text-[var(--semi-color-text-1)] hover:text-[var(--semi-color-primary)]'
                   >
                     neko-api-key-tool
                   </a>

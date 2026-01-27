@@ -38,9 +38,9 @@ const ApiInfoPanel = ({
   return (
     <Card
       {...CARD_PROPS}
-      className='bg-gray-50 border-0 !rounded-2xl'
+      className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'
       title={
-        <div className={FLEX_CENTER_GAP2}>
+        <div className={`${FLEX_CENTER_GAP2} text-[var(--semi-color-text-0)] font-medium`}>
           <Server size={16} />
           {t('API信息')}
         </div>
@@ -51,7 +51,7 @@ const ApiInfoPanel = ({
         {apiInfoData.length > 0 ? (
           apiInfoData.map((api) => (
             <React.Fragment key={api.id}>
-              <div className='flex p-2 hover:bg-white rounded-lg transition-colors cursor-pointer'>
+              <div className='flex p-4 hover:bg-[var(--semi-color-fill-0)] rounded-lg transition-colors cursor-pointer'>
                 <div className='flex-shrink-0 mr-3'>
                   <Avatar size='extra-small' color={api.color}>
                     {api.route.substring(0, 2)}
@@ -59,7 +59,7 @@ const ApiInfoPanel = ({
                 </div>
                 <div className='flex-1'>
                   <div className='flex flex-wrap items-center justify-between mb-1 w-full gap-2'>
-                    <span className='text-sm font-medium text-gray-900 !font-bold break-all'>
+                    <span className='text-sm text-[var(--semi-color-text-0)] font-medium break-all'>
                       {api.route}
                     </span>
                     <div className='flex items-center gap-1 mt-1 lg:mt-0'>
@@ -88,12 +88,12 @@ const ApiInfoPanel = ({
                     </div>
                   </div>
                   <div
-                    className='!text-semi-color-primary break-all cursor-pointer hover:underline mb-1'
+                    className='text-[var(--semi-color-primary)] break-all cursor-pointer hover:underline mb-1'
                     onClick={() => handleCopyUrl(api.url)}
                   >
                     {api.url}
                   </div>
-                  <div className='text-gray-500'>{api.description}</div>
+                  <div className='text-[var(--semi-color-text-2)]'>{api.description}</div>
                 </div>
               </div>
               <Divider />

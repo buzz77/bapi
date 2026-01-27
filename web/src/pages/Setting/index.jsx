@@ -163,10 +163,10 @@ const Setting = () => {
   }, [location.search]);
 
   return (
-    <div className='mt-[60px] px-2 md:px-6 pb-6'>
+    <div className='h-full px-2 md:px-6 pb-6'>
       <Layout>
         <Layout.Content>
-          <div className="modern-card p-2 md:p-6 glass min-h-[calc(100vh-100px)]">
+          <div className="bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] p-2 md:p-6 min-h-[calc(100vh-100px)]">
             <Tabs
               type='line'
               activeKey={tabActiveKey}

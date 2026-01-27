@@ -149,33 +149,34 @@ const Home = () => {
   }, [endpointItems.length]);
 
   return (
-    <div className='w-full overflow-x-hidden'>
+    <div className='w-full min-h-screen bg-[var(--semi-color-bg-0)]'>
       <NoticeModal
         visible={noticeVisible}
         onClose={() => setNoticeVisible(false)}
         isMobile={isMobile}
       />
       {homePageContentLoaded && homePageContent === '' ? (
-        <div className='w-full overflow-x-hidden'>
+        <div className='w-full'>
           {/* Banner 部分 */}
-          <div className='w-full border-b border-semi-color-border min-h-[500px] md:min-h-[600px] lg:min-h-[700px] relative overflow-x-hidden'>
-            {/* 背景模糊晕染球 */}
-            <div className='blur-ball blur-ball-indigo' />
-            <div className='blur-ball blur-ball-teal' />
+          <div className='w-full min-h-[500px] md:min-h-[600px] lg:min-h-[700px]'>
             <div className='flex items-center justify-center h-full px-4 py-20 md:py-24 lg:py-32 mt-10'>
               {/* 居中内容区 */}
               <div className='flex flex-col items-center justify-center text-center max-w-4xl mx-auto'>
                 <div className='flex flex-col items-center justify-center mb-6 md:mb-8'>
                   <h1
-                    className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-semi-color-text-0 leading-tight ${isChinese ? 'tracking-wide md:tracking-wider' : ''}`}
+                    className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight ${isChinese ? 'tracking-wide md:tracking-wider' : ''}`}
+                    style={{ color: 'var(--semi-color-text-0)' }}
                   >
                     <>
                       {t('统一的')}
                       <br />
-                      <span className='shine-text'>{t('大模型接口网关')}</span>
+                      <span style={{ color: 'var(--semi-color-primary)' }}>{t('大模型接口网关')}</span>
                     </>
                   </h1>
-                  <p className='text-base md:text-lg lg:text-xl text-semi-color-text-1 mt-4 md:mt-6 max-w-xl'>
+                  <p
+                    className='text-base md:text-lg lg:text-xl mt-4 md:mt-6 max-w-xl'
+                    style={{ color: 'var(--semi-color-text-1)' }}
+                  >
                     {t('更好的价格，更好的稳定性，只需要将模型基址替换为：')}
                   </p>
                   {/* BASE URL 与端点选择 */}
@@ -254,79 +255,84 @@ const Home = () => {
 
                 {/* 框架兼容性图标 */}
                 <div className='mt-12 md:mt-16 lg:mt-20 w-full'>
-                  <div className='flex items-center mb-6 md:mb-8 justify-center'>
-                    <Text
-                      type='tertiary'
-                      className='text-lg md:text-xl lg:text-2xl font-light'
-                    >
-                      {t('支持众多的大模型供应商')}
-                    </Text>
-                  </div>
-                  <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto px-4'>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Moonshot size={40} />
+                  <div className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] p-6 md:p-8'>
+                    <div className='flex items-center mb-6 md:mb-8 justify-center'>
+                      <Text
+                        className='text-lg md:text-xl lg:text-2xl font-light'
+                        style={{ color: 'var(--semi-color-text-2)' }}
+                      >
+                        {t('支持众多的大模型供应商')}
+                      </Text>
                     </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <OpenAI size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <XAI size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Zhipu.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Volcengine.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Cohere.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Claude.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Gemini.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Suno size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Minimax.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Wenxin.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Spark.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Qingyan.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <DeepSeek.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Qwen.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Midjourney size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Grok size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <AzureAI.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Hunyuan.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Xinference.Color size={40} />
-                    </div>
-                    <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
-                      <Typography.Text className='!text-lg sm:!text-xl md:!text-2xl lg:!text-3xl font-bold'>
-                        30+
-                      </Typography.Text>
+                    <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto'>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Moonshot size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <OpenAI size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <XAI size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Zhipu.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Volcengine.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Cohere.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Claude.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Gemini.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Suno size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Minimax.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Wenxin.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Spark.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Qingyan.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <DeepSeek.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Qwen.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Midjourney size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Grok size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <AzureAI.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Hunyuan.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Xinference.Color size={40} />
+                      </div>
+                      <div className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center'>
+                        <Typography.Text
+                          className='!text-lg sm:!text-xl md:!text-2xl lg:!text-3xl font-bold'
+                          style={{ color: 'var(--semi-color-text-0)' }}
+                        >
+                          30+
+                        </Typography.Text>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -335,7 +341,7 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        <div className='overflow-x-hidden w-full'>
+        <div className='w-full'>
           {homePageContent.startsWith('https://') ? (
             <iframe
               src={homePageContent}
@@ -343,7 +349,8 @@ const Home = () => {
             />
           ) : (
             <div
-              className='mt-[60px]'
+              className='mt-[60px] px-4'
+              style={{ color: 'var(--semi-color-text-0)' }}
               dangerouslySetInnerHTML={{ __html: homePageContent }}
             />
           )}

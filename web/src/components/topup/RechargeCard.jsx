@@ -89,7 +89,7 @@ const RechargeCard = ({
   const showAmountSkeleton = useMinimumLoadingTime(amountLoading);
   console.log(' enabled screem ?', enableCreemTopUp, ' products ?', creemProducts);
   return (
-    <Card className='!rounded-2xl shadow-sm border-0'>
+    <Card className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'>
       {/* 卡片头部 */}
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center'>
@@ -100,7 +100,7 @@ const RechargeCard = ({
             <Typography.Text className='text-lg font-medium'>
               {t('账户充值')}
             </Typography.Text>
-            <div className='text-xs'>{t('多种充值方式，安全便捷')}</div>
+            <div className='text-xs' style={{ color: 'var(--semi-color-text-2)' }}>{t('多种充值方式，安全便捷')}</div>
           </div>
         </div>
         <Button
@@ -115,7 +115,11 @@ const RechargeCard = ({
       <Space vertical style={{ width: '100%' }}>
         {/* 统计数据 */}
         <Card
-          className='!rounded-xl w-full'
+          className='rounded-lg w-full'
+          style={{
+            backgroundColor: 'var(--semi-color-bg-1)',
+            borderColor: 'var(--semi-color-border)'
+          }}
           cover={
             <div
               className='relative h-30'
@@ -350,7 +354,7 @@ const RechargeCard = ({
                             })}
                           </Space>
                         ) : (
-                          <div className='text-gray-500 text-sm p-3 bg-gray-50 rounded-lg border border-dashed border-gray-300'>
+                          <div className='p-3 rounded-lg border border-dashed' style={{ color: 'var(--semi-color-text-2)', backgroundColor: 'var(--semi-color-bg-2)', borderColor: 'var(--semi-color-border)' }}>
                             {t('暂无可用的支付方式，请联系管理员配置')}
                           </div>
                         )}
@@ -493,16 +497,20 @@ const RechargeCard = ({
                         <Card
                           key={index}
                           onClick={() => creemPreTopUp(product)}
-                          className='cursor-pointer !rounded-2xl transition-all hover:shadow-md border-gray-200 hover:border-gray-300'
+                          className='cursor-pointer rounded-lg transition-all hover:shadow-md'
+                          style={{
+                            backgroundColor: 'var(--semi-color-bg-1)',
+                            borderColor: 'var(--semi-color-border)'
+                          }}
                           bodyStyle={{ textAlign: 'center', padding: '16px' }}
                         >
                           <div className='font-medium text-lg mb-2'>
                             {product.name}
                           </div>
-                          <div className='text-sm text-gray-600 mb-2'>
+                          <div className='text-sm mb-2' style={{ color: 'var(--semi-color-text-2)' }}>
                             {t('充值额度')}: {product.quota}
                           </div>
-                          <div className='text-lg font-semibold text-blue-600'>
+                          <div className='text-lg font-semibold' style={{ color: 'var(--semi-color-primary)' }}>
                             {product.currency === 'EUR' ? '€' : '$'}{product.price}
                           </div>
                         </Card>
@@ -526,7 +534,11 @@ const RechargeCard = ({
 
         {/* 兑换码充值 */}
         <Card
-          className='!rounded-xl w-full'
+          className='rounded-lg w-full'
+          style={{
+            backgroundColor: 'var(--semi-color-bg-1)',
+            borderColor: 'var(--semi-color-border)'
+          }}
           title={
             <Text type='tertiary' strong>
               {t('兑换码充值')}

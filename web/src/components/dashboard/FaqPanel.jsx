@@ -38,9 +38,9 @@ const FaqPanel = ({
   return (
     <Card
       {...CARD_PROPS}
-      className='shadow-sm !rounded-2xl lg:col-span-1'
+      className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] lg:col-span-1'
       title={
-        <div className={FLEX_CENTER_GAP2}>
+        <div className={`${FLEX_CENTER_GAP2} text-[var(--semi-color-text-0)] font-medium`}>
           <HelpCircle size={16} />
           {t('常见问答')}
         </div>

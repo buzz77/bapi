@@ -122,20 +122,22 @@ const PageLayout = () => {
   return (
     <Layout
       style={{
-        height: '100vh',
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        overflow: isMobile ? 'visible' : 'hidden',
+        overflow: 'hidden',
       }}
     >
+      {/* Fixed Header */}
       <Header
         style={{
           padding: 0,
-          height: 'auto',
+          height: 'var(--header-height)',
           lineHeight: 'normal',
           position: 'fixed',
           width: '100%',
           top: 0,
+          left: 0,
           zIndex: 100,
         }}
       >
@@ -144,24 +146,29 @@ const PageLayout = () => {
           drawerOpen={drawerOpen}
         />
       </Header>
+
+      {/* Main Layout - below header */}
       <Layout
         style={{
-          overflow: isMobile ? 'visible' : 'auto',
+          marginTop: 'var(--header-height)',
+          flex: 1,
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
+          minHeight: 'calc(100vh - var(--header-height))',
         }}
       >
+        {/* Fixed Sidebar */}
         {showSider && (
           <Sider
             style={{
               position: 'fixed',
               left: 0,
-              top: '64px',
+              top: 'var(--header-height)',
               zIndex: 99,
               border: 'none',
-              paddingRight: '0',
-              height: 'calc(100vh - 64px)',
+              height: 'calc(100vh - var(--header-height))',
               width: 'var(--sidebar-current-width)',
+              background: 'transparent',
             }}
           >
             <SiderBar
@@ -171,6 +178,8 @@ const PageLayout = () => {
             />
           </Sider>
         )}
+
+        {/* Content Area */}
         <Layout
           style={{
             marginLeft: isMobile
@@ -178,17 +187,20 @@ const PageLayout = () => {
               : showSider
                 ? 'var(--sidebar-current-width)'
                 : '0',
-            flex: '1 1 auto',
+            flex: 1,
             display: 'flex',
             flexDirection: 'column',
+            minHeight: 'calc(100vh - var(--header-height))',
+            transition: 'margin-left 0.3s ease',
           }}
         >
           <Content
             style={{
-              flex: '1 0 auto',
-              overflowY: isMobile ? 'visible' : 'hidden',
+              flex: 1,
+              overflowY: 'auto',
+              overflowX: 'hidden',
               WebkitOverflowScrolling: 'touch',
-              padding: shouldInnerPadding ? (isMobile ? '5px' : '24px') : '0',
+              padding: shouldInnerPadding ? (isMobile ? '12px' : '24px') : '0',
               position: 'relative',
             }}
           >
@@ -197,7 +209,7 @@ const PageLayout = () => {
           {!shouldHideFooter && (
             <Layout.Footer
               style={{
-                flex: '0 0 auto',
+                flexShrink: 0,
                 width: '100%',
               }}
             >

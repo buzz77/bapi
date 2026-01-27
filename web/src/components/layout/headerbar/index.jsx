@@ -47,69 +47,63 @@ const HeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
   const { mainNavLinks } = useNavigation(t, docsLink, headerNavModules);
 
   return (
-    <>
-      <header className='fixed top-3 right-4 left-4 md:left-[calc(var(--sidebar-current-width)+24px)] z-40 transition-all duration-300'>
-        <div className="glass rounded-2xl h-16 px-4 flex items-center justify-between shadow-sm border border-white/20 dark:border-white/5">
-          <NoticeModal
-            visible={noticeVisible}
-            onClose={handleNoticeClose}
-            isMobile={isMobile}
-            defaultTab={unreadCount > 0 ? 'system' : 'inApp'}
-            unreadKeys={getUnreadKeys()}
-          />
+    <header className='w-full h-full flex items-center justify-between px-4 bg-[var(--semi-color-bg-1)] border-b border-[var(--semi-color-border)]'>
+      <NoticeModal
+        visible={noticeVisible}
+        onClose={handleNoticeClose}
+        isMobile={isMobile}
+        defaultTab={unreadCount > 0 ? 'system' : 'inApp'}
+        unreadKeys={getUnreadKeys()}
+      />
 
-          <div className='flex items-center'>
-            <MobileMenuButton
-              isConsoleRoute={isConsoleRoute}
-              isMobile={isMobile}
-              drawerOpen={drawerOpen}
-              collapsed={collapsed}
-              onToggle={handleMobileMenuToggle}
-              t={t}
-            />
+      <div className='flex items-center'>
+        <MobileMenuButton
+          isConsoleRoute={isConsoleRoute}
+          isMobile={isMobile}
+          drawerOpen={drawerOpen}
+          collapsed={collapsed}
+          onToggle={handleMobileMenuToggle}
+          t={t}
+        />
 
-            <HeaderLogo
-              isMobile={isMobile}
-              isConsoleRoute={isConsoleRoute}
-              logo={logo}
-              logoLoaded={logoLoaded}
-              isLoading={isLoading}
-              systemName={systemName}
-              isSelfUseMode={isSelfUseMode}
-              isDemoSiteMode={isDemoSiteMode}
-              t={t}
-            />
-          </div>
+        <HeaderLogo
+          isMobile={isMobile}
+          isConsoleRoute={isConsoleRoute}
+          logo={logo}
+          logoLoaded={logoLoaded}
+          isLoading={isLoading}
+          systemName={systemName}
+          isSelfUseMode={isSelfUseMode}
+          isDemoSiteMode={isDemoSiteMode}
+          t={t}
+        />
+      </div>
 
-          <Navigation
-            mainNavLinks={mainNavLinks}
-            isMobile={isMobile}
-            isLoading={isLoading}
-            userState={userState}
-            pricingRequireAuth={pricingRequireAuth}
-          />
+      <Navigation
+        mainNavLinks={mainNavLinks}
+        isMobile={isMobile}
+        isLoading={isLoading}
+        userState={userState}
+        pricingRequireAuth={pricingRequireAuth}
+      />
 
-          <ActionButtons
-            isNewYear={isNewYear}
-            unreadCount={unreadCount}
-            onNoticeOpen={handleNoticeOpen}
-            theme={theme}
-            onThemeToggle={handleThemeToggle}
-            currentLang={currentLang}
-            onLanguageChange={handleLanguageChange}
-            userState={userState}
-            isLoading={isLoading}
-            isMobile={isMobile}
-            isSelfUseMode={isSelfUseMode}
-            logout={logout}
-            navigate={navigate}
-            t={t}
-          />
-        </div>
-      </header>
-      {/* Spacer to prevent content from hiding behind fixed header */}
-      <div className="h-20"></div>
-    </>
+      <ActionButtons
+        isNewYear={isNewYear}
+        unreadCount={unreadCount}
+        onNoticeOpen={handleNoticeOpen}
+        theme={theme}
+        onThemeToggle={handleThemeToggle}
+        currentLang={currentLang}
+        onLanguageChange={handleLanguageChange}
+        userState={userState}
+        isLoading={isLoading}
+        isMobile={isMobile}
+        isSelfUseMode={isSelfUseMode}
+        logout={logout}
+        navigate={navigate}
+        t={t}
+      />
+    </header>
   );
 };
 

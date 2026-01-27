@@ -375,24 +375,24 @@ export default function SettingsSidebarModulesUser() {
     );
 
   return (
-    <Card className='!rounded-2xl shadow-sm border-0'>
+    <Card className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'>
       {/* 卡片头部 */}
       <div className='flex items-center mb-4'>
         <Avatar size='small' color='purple' className='mr-3 shadow-md'>
           <Settings size={16} />
         </Avatar>
         <div>
-          <Typography.Text className='text-lg font-medium'>
+          <Typography.Text className='text-lg font-medium text-[var(--semi-color-text-0)]'>
             {t('左侧边栏个人设置')}
           </Typography.Text>
-          <div className='text-xs text-gray-600'>
+          <div className='text-xs text-[var(--semi-color-text-2)]'>
             {t('个性化设置左侧边栏的显示内容')}
           </div>
         </div>
       </div>
 
       <div className='mb-4'>
-        <Text type='secondary' className='text-sm text-gray-600'>
+        <Text type='secondary' className='text-sm text-[var(--semi-color-text-2)]'>
           {t('您可以个性化设置侧边栏的要显示功能')}
         </Text>
       </div>
@@ -400,12 +400,12 @@ export default function SettingsSidebarModulesUser() {
       {sectionConfigs.map((section) => (
         <div key={section.key} className='mb-6'>
           {/* 区域标题和总开关 */}
-          <div className='flex justify-between items-center mb-4 p-4 bg-gray-50 rounded-xl border border-gray-200'>
+          <div className='flex justify-between items-center mb-4 p-4 bg-[var(--semi-color-bg-2)] rounded-lg border border-[var(--semi-color-border)]'>
             <div>
-              <div className='font-semibold text-base text-gray-900 mb-1'>
+              <div className='font-semibold text-base text-[var(--semi-color-text-0)] mb-1'>
                 {section.title}
               </div>
-              <Text className='text-xs text-gray-600'>
+              <Text className='text-xs text-[var(--semi-color-text-2)]'>
                 {section.description}
               </Text>
             </div>
@@ -421,7 +421,7 @@ export default function SettingsSidebarModulesUser() {
             {section.modules.map((module) => (
               <Col key={module.key} xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Card
-                  className={`!rounded-xl border border-gray-200 hover:border-blue-300 transition-all duration-200 ${
+                  className={`rounded-lg border border-[var(--semi-color-border)] hover:border-[var(--semi-color-primary)] transition-all duration-200 ${
                     sidebarModulesUser[section.key]?.enabled !== false
                       ? ''
                       : 'opacity-50'
@@ -431,10 +431,10 @@ export default function SettingsSidebarModulesUser() {
                 >
                   <div className='flex justify-between items-center h-full'>
                     <div className='flex-1 text-left'>
-                      <div className='font-semibold text-sm text-gray-900 mb-1'>
+                      <div className='font-semibold text-sm text-[var(--semi-color-text-0)] mb-1'>
                         {module.title}
                       </div>
-                      <Text className='text-xs text-gray-600 leading-relaxed block'>
+                      <Text className='text-xs text-[var(--semi-color-text-2)] leading-relaxed block'>
                         {module.description}
                       </Text>
                     </div>
@@ -460,11 +460,11 @@ export default function SettingsSidebarModulesUser() {
       ))}
 
       {/* 底部按钮 */}
-      <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200'>
+      <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-[var(--semi-color-border)]'>
         <Button
           type='tertiary'
           onClick={resetSidebarModules}
-          className='!rounded-lg'
+          className='rounded-lg'
         >
           {t('重置为默认')}
         </Button>
@@ -472,7 +472,7 @@ export default function SettingsSidebarModulesUser() {
           type='primary'
           onClick={onSubmit}
           loading={loading}
-          className='!rounded-lg'
+          className='rounded-lg'
         >
           {t('保存设置')}
         </Button>

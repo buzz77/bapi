@@ -37,15 +37,15 @@ const ChatPage = () => {
 
   if (isLoading) {
     return (
-      <div className='fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-surface-light dark:bg-surface-dark z-[1000]'>
+      <div className='fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-[var(--semi-color-bg-0)] z-[1000]'>
         <div className="relative">
-          <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-[var(--semi-color-primary)]/20 border-t-[var(--semi-color-primary)] rounded-full animate-spin"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 bg-primary/10 rounded-full blur-sm"></div>
+            <div className="w-8 h-8 bg-[var(--semi-color-primary)]/10 rounded-full blur-sm"></div>
           </div>
         </div>
         <span
-          className='mt-6 text-lg font-medium text-slate-600 dark:text-slate-300 animate-pulse'
+          className='mt-6 text-lg font-medium text-[var(--semi-color-text-1)] animate-pulse'
         >
           {t('正在连接对话服务...')}
         </span>
@@ -55,20 +55,20 @@ const ChatPage = () => {
 
   if (error || !iframeSrc) {
     return (
-      <div className='fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-surface-light dark:bg-surface-dark z-[1000] p-4'>
-        <div className="modern-card p-8 text-center max-w-md w-full">
-          <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AlertCircle size={32} className="text-red-500" />
+      <div className='fixed inset-0 w-screen h-screen flex flex-col items-center justify-center bg-[var(--semi-color-bg-0)] z-[1000] p-4'>
+        <div className="p-8 text-center max-w-md w-full rounded-xl bg-[var(--semi-color-bg-1)] border border-[var(--semi-color-border)]">
+          <div className="w-16 h-16 bg-[var(--semi-color-danger-light-default)] rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle size={32} className="text-[var(--semi-color-danger)]" />
           </div>
-          <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{t('连接失败')}</h3>
-          <p className="text-slate-500 dark:text-slate-400 mb-6">
+          <h3 className="text-xl font-bold text-[var(--semi-color-text-0)] mb-2">{t('连接失败')}</h3>
+          <p className="text-[var(--semi-color-text-2)] mb-6">
             {t('无法加载聊天界面，可能是配置错误或网络问题。')}
           </p>
           <Button
             onClick={() => navigate('/console')}
             theme='solid'
             type='primary'
-            className='!rounded-xl shadow-glow'
+            className='!rounded-xl'
             icon={<ArrowLeft size={16} />}
           >
             {t('返回控制台')}
@@ -79,14 +79,14 @@ const ChatPage = () => {
   }
 
   return (
-    <div className="w-full h-screen bg-surface-light dark:bg-surface-dark flex flex-col overflow-hidden">
-      {/* 顶部简单的玻璃导航条，用于返回 */}
+    <div className="w-full h-full bg-[var(--semi-color-bg-0)] flex flex-col overflow-hidden">
+      {/* 顶部导航条，用于返回 */}
       <div className="h-16 flex items-center px-4 fixed top-0 left-0 right-0 z-50 pointer-events-none">
         <Button
           onClick={() => navigate('/console')}
           theme='solid'
           type='tertiary'
-          className='!rounded-full pointer-events-auto bg-white/50 dark:bg-black/50 backdrop-blur-md shadow-sm border border-white/20 hover:bg-white/80 dark:hover:bg-black/70 transition-all'
+          className='!rounded-full pointer-events-auto bg-[var(--semi-color-bg-1)] border border-[var(--semi-color-border)] hover:bg-[var(--semi-color-fill-0)] transition-all'
           icon={<ArrowLeft size={20} />}
           aria-label={t('返回')}
         />
@@ -101,7 +101,7 @@ const ChatPage = () => {
         }}
         title='Chat Interface'
         allow='camera;microphone;clipboard-read;clipboard-write'
-        className="bg-white dark:bg-black"
+        className="bg-[var(--semi-color-bg-0)]"
       />
     </div>
   );

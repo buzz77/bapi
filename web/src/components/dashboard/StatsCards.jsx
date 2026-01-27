@@ -21,14 +21,11 @@ const StatsCards = ({
         {groupedStatsData.map((group, idx) => (
           <div
             key={idx}
-            className={`modern-card p-5 relative overflow-hidden group hover:-translate-y-1 transition-all duration-300`}
+            className="bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] p-4 transition-shadow hover:shadow-sm"
           >
-            {/* 装饰背景 */}
-            <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-10 bg-current transition-transform group-hover:scale-150 duration-500 ease-out`} style={{color: group.avatarColor || 'var(--brand-color)'}}></div>
+            <h3 className="text-sm font-medium text-[var(--semi-color-text-2)] mb-4">{group.title}</h3>
 
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">{group.title}</h3>
-
-            <div className='space-y-5 relative z-10'>
+            <div className='space-y-4'>
               {group.items.map((item, itemIdx) => (
                 <div
                   key={itemIdx}
@@ -36,12 +33,12 @@ const StatsCards = ({
                   onClick={item.onClick}
                 >
                   <div className='flex items-center gap-3'>
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm text-white transition-transform group-hover:scale-110 duration-300`} style={{backgroundColor: item.avatarColor || 'var(--brand-color)'}}>
+                    <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white" style={{backgroundColor: item.avatarColor || 'var(--brand-color)'}}>
                       {item.icon}
                     </div>
                     <div>
-                      <div className='text-xs text-slate-500 dark:text-slate-400 font-medium mb-0.5'>{item.title}</div>
-                      <div className='text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight'>
+                      <div className='text-xs text-[var(--semi-color-text-2)] mb-0.5'>{item.title}</div>
+                      <div className='text-xl font-semibold text-[var(--semi-color-text-0)]'>
                         <Skeleton
                           loading={loading}
                           active

@@ -40,15 +40,15 @@ const PricingPage = () => {
   };
 
   return (
-    <div className='bg-white'>
-      <Layout className='pricing-layout'>
+    <div className='h-full'>
+      <Layout className='pricing-layout h-full'>
         {!isMobile && (
-          <Sider className='pricing-scroll-hide pricing-sidebar'>
+          <Sider className='pricing-scroll-hide pricing-sidebar bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'>
             <PricingSidebar {...allProps} />
           </Sider>
         )}
 
-        <Content className='pricing-scroll-hide pricing-content'>
+        <Content className='pricing-scroll-hide pricing-content bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] ml-4'>
           <PricingContent
             {...allProps}
             isMobile={isMobile}

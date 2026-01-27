@@ -40,7 +40,7 @@ const InvitationCard = ({
   handleAffLinkClick,
 }) => {
   return (
-    <Card className='!rounded-2xl shadow-sm border-0'>
+    <Card className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'>
       {/* 卡片头部 */}
       <div className='flex items-center mb-4'>
         <Avatar size='small' color='green' className='mr-3 shadow-md'>
@@ -50,7 +50,7 @@ const InvitationCard = ({
           <Typography.Text className='text-lg font-medium'>
             {t('邀请奖励')}
           </Typography.Text>
-          <div className='text-xs'>{t('邀请好友获得额外奖励')}</div>
+          <div className='text-xs' style={{ color: 'var(--semi-color-text-2)' }}>{t('邀请好友获得额外奖励')}</div>
         </div>
       </div>
 
@@ -58,7 +58,11 @@ const InvitationCard = ({
       <Space vertical style={{ width: '100%' }}>
         {/* 统计数据统一卡片 */}
         <Card
-          className='!rounded-xl w-full'
+          className='rounded-lg w-full'
+          style={{
+            backgroundColor: 'var(--semi-color-bg-1)',
+            borderColor: 'var(--semi-color-border)'
+          }}
           cover={
             <div
               className='relative h-30'
@@ -195,7 +199,11 @@ const InvitationCard = ({
 
         {/* 奖励说明 */}
         <Card
-          className='!rounded-xl w-full'
+          className='rounded-lg w-full'
+          style={{
+            backgroundColor: 'var(--semi-color-bg-1)',
+            borderColor: 'var(--semi-color-border)'
+          }}
           title={<Text type='tertiary'>{t('奖励说明')}</Text>}
         >
           <div className='space-y-3'>

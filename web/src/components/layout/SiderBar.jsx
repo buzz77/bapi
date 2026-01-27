@@ -339,11 +339,11 @@ const SiderBar = ({ onNavigate = () => {} }) => {
 
   return (
     <div
-      className='sidebar-container glass m-3 rounded-2xl border border-white/20 dark:border-white/5 overflow-hidden flex flex-col'
+      className='sidebar-container'
       style={{
         width: 'var(--sidebar-current-width)',
-        height: 'calc(100vh - 24px)', // Leave margin top/bottom
-        transition: 'width 0.3s ease',
+        height: '100%',
+        transition: 'width 0.2s ease',
       }}
     >
       <SkeletonWrapper
@@ -360,9 +360,8 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             isCollapsed={collapsed}
             onCollapseChange={toggleCollapsed}
             selectedKeys={selectedKeys}
-            // Overriding styles via classNames defined in index.css
-            itemStyle={{ borderRadius: '12px', margin: '4px 8px' }}
-            hoverStyle={{ backgroundColor: 'rgba(var(--semi-grey-1), 0.5)' }}
+            itemStyle={{ borderRadius: '6px', margin: '2px 8px' }}
+            hoverStyle={{ backgroundColor: 'var(--semi-color-bg-2)' }}
             selectedStyle={{ backgroundColor: 'var(--brand-color)', color: '#1A1A1A' }}
             renderWrapper={({ itemElement, props }) => {
               const to =
@@ -393,9 +392,9 @@ const SiderBar = ({ onNavigate = () => {} }) => {
           >
             {/* Chat Section */}
             {hasSectionVisibleModules('chat') && (
-              <div className='sidebar-section px-2'>
+              <div className='sidebar-section px-1'>
                 {!collapsed && (
-                  <div className='sidebar-group-label text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 pt-2'>{t('聊天')}</div>
+                  <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-3'>{t('聊天')}</div>
                 )}
                 {chatMenuItems.map((item) => renderSubItem(item))}
               </div>
@@ -404,10 +403,10 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {/* Console Section */}
             {hasSectionVisibleModules('console') && (
               <>
-                <div className="my-2 mx-4 border-t border-slate-200/50 dark:border-slate-700/50"></div>
-                <div className="px-2">
+                <div className="my-2 mx-3 border-t border-[var(--semi-color-border)]"></div>
+                <div className="px-1">
                   {!collapsed && (
-                    <div className='sidebar-group-label text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 pt-2'>{t('控制台')}</div>
+                    <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-1'>{t('控制台')}</div>
                   )}
                   {workspaceItems.map((item) => renderNavItem(item))}
                 </div>
@@ -417,10 +416,10 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {/* Personal Section */}
             {hasSectionVisibleModules('personal') && (
               <>
-                <div className="my-2 mx-4 border-t border-slate-200/50 dark:border-slate-700/50"></div>
-                <div className="px-2">
+                <div className="my-2 mx-3 border-t border-[var(--semi-color-border)]"></div>
+                <div className="px-1">
                   {!collapsed && (
-                    <div className='sidebar-group-label text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 pt-2'>{t('个人中心')}</div>
+                    <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-1'>{t('个人中心')}</div>
                   )}
                   {financeItems.map((item) => renderNavItem(item))}
                 </div>
@@ -430,10 +429,10 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {/* Admin Section */}
             {isAdmin() && hasSectionVisibleModules('admin') && (
               <>
-                <div className="my-2 mx-4 border-t border-slate-200/50 dark:border-slate-700/50"></div>
-                <div className="px-2">
+                <div className="my-2 mx-3 border-t border-[var(--semi-color-border)]"></div>
+                <div className="px-1">
                   {!collapsed && (
-                    <div className='sidebar-group-label text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 pt-2'>{t('管理员')}</div>
+                    <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-1'>{t('管理员')}</div>
                   )}
                   {adminItems.map((item) => renderNavItem(item))}
                 </div>
@@ -444,7 +443,7 @@ const SiderBar = ({ onNavigate = () => {} }) => {
       </SkeletonWrapper>
 
       {/* Footer Collapse Button */}
-      <div className='p-3 border-t border-slate-200/50 dark:border-slate-700/50 bg-white/30 dark:bg-black/20 backdrop-blur-sm'>
+      <div className='p-2 border-t border-[var(--semi-color-border)]'>
         <SkeletonWrapper
           loading={showSkeleton}
           type='button'
@@ -455,16 +454,16 @@ const SiderBar = ({ onNavigate = () => {} }) => {
           <Button
             theme='borderless'
             type='tertiary'
-            className={`w-full hover:bg-black/5 dark:hover:bg-white/10 !rounded-lg transition-colors ${collapsed ? 'px-0 justify-center' : 'px-4 justify-start'}`}
+            className={`w-full hover:bg-[var(--semi-color-bg-2)] !rounded-md transition-colors ${collapsed ? 'px-0 justify-center' : 'px-3 justify-start'}`}
             icon={
               <ChevronLeft
-                size={18}
-                className={`text-slate-500 transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`}
+                size={16}
+                className={`text-[var(--semi-color-text-2)] transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`}
               />
             }
             onClick={toggleCollapsed}
           >
-            {!collapsed && <span className="ml-2 text-slate-600 dark:text-slate-300 font-medium">{t('收起侧边栏')}</span>}
+            {!collapsed && <span className="ml-2 text-[var(--semi-color-text-2)] text-sm">{t('收起')}</span>}
           </Button>
         </SkeletonWrapper>
       </div>

@@ -410,19 +410,16 @@ const Playground = () => {
 
   return (
     <PlaygroundProvider value={playgroundContextValue}>
-      <div className='h-full relative overflow-hidden bg-surface-light dark:bg-surface-dark transition-colors duration-300'>
-        {/* 背景装饰球 */}
-        <div className='absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary-100/30 blur-[100px] pointer-events-none mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-20'></div>
-
+      <div className='h-full relative overflow-hidden bg-[var(--semi-color-bg-0)] transition-colors duration-300'>
         <Layout className='h-full bg-transparent flex flex-col md:flex-row relative z-10'>
           {(showSettings || !isMobile) && (
             <Layout.Sider
               className={`
-                bg-transparent border-r border-white/20 dark:border-white/5 flex-shrink-0 mt-[60px]
+                flex-shrink-0
                 ${
                   isMobile
-                    ? 'fixed top-0 left-0 right-0 bottom-0 z-[1000] w-full h-auto bg-white dark:bg-slate-900 shadow-2xl overflow-auto'
-                    : 'relative z-[1] w-80 h-[calc(100vh-60px)] modern-scrollbar overflow-y-auto glass m-2 !rounded-2xl'
+                    ? 'fixed top-0 left-0 right-0 bottom-0 z-[1000] w-full h-auto bg-[var(--semi-color-bg-1)] shadow-2xl overflow-auto'
+                    : 'relative z-[1] w-80 h-full overflow-y-auto bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] m-2'
                 }
               `}
               width={isMobile ? '100%' : 320}
@@ -451,8 +448,8 @@ const Playground = () => {
           )}
 
           <Layout.Content className='relative flex-1 overflow-hidden'>
-            <div className='overflow-hidden flex flex-col lg:flex-row h-[calc(100vh-60px)] mt-[60px] p-2'>
-              <div className='flex-1 flex flex-col glass !rounded-2xl overflow-hidden shadow-sm border border-white/20 dark:border-white/5 mx-2 mb-2'>
+            <div className='overflow-hidden flex flex-col lg:flex-row h-full p-2'>
+              <div className='flex-1 flex flex-col bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] overflow-hidden mx-2 mb-2'>
                 <ChatArea
                   chatRef={chatRef}
                   message={message}
@@ -475,7 +472,7 @@ const Playground = () => {
               {/* 调试面板 - 桌面端 */}
               {showDebugPanel && !isMobile && (
                 <div className='w-96 flex-shrink-0 h-full pl-2 pb-2'>
-                  <div className='h-full glass !rounded-2xl overflow-hidden shadow-sm border border-white/20 dark:border-white/5'>
+                  <div className='h-full bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] overflow-hidden'>
                     <OptimizedDebugPanel
                       debugData={debugData}
                       activeDebugTab={activeDebugTab}
@@ -490,7 +487,7 @@ const Playground = () => {
 
             {/* 调试面板 - 移动端覆盖层 */}
             {showDebugPanel && isMobile && (
-              <div className='fixed top-0 left-0 right-0 bottom-0 z-[1000] bg-white dark:bg-slate-900 overflow-auto shadow-2xl animate-slide-in-right'>
+              <div className='fixed top-0 left-0 right-0 bottom-0 z-[1000] bg-[var(--semi-color-bg-1)] overflow-auto shadow-2xl animate-slide-in-right'>
                 <OptimizedDebugPanel
                   debugData={debugData}
                   activeDebugTab={activeDebugTab}
