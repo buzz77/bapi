@@ -1,22 +1,3 @@
-/*
-Copyright (C) 2025 QuantumNous
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-For commercial licensing, please contact support@quantumnous.com
-*/
-
 import React, { useEffect, useState } from 'react';
 import { Layout, TabPane, Tabs } from '@douyinfe/semi-ui';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -58,8 +39,8 @@ const Setting = () => {
   if (isRoot()) {
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Settings size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Settings size={16} />
           {t('运营设置')}
         </span>
       ),
@@ -68,8 +49,8 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <LayoutDashboard size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <LayoutDashboard size={16} />
           {t('仪表盘设置')}
         </span>
       ),
@@ -78,8 +59,8 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <MessageSquare size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <MessageSquare size={16} />
           {t('聊天设置')}
         </span>
       ),
@@ -88,8 +69,8 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Palette size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Palette size={16} />
           {t('绘图设置')}
         </span>
       ),
@@ -98,8 +79,8 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <CreditCard size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <CreditCard size={16} />
           {t('支付设置')}
         </span>
       ),
@@ -108,9 +89,9 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Calculator size={18} />
-          {t('分组与模型定价设置')}
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Calculator size={16} />
+          {t('分组与模型定价')}
         </span>
       ),
       content: <RatioSetting />,
@@ -118,9 +99,9 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Gauge size={18} />
-          {t('速率限制设置')}
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Gauge size={16} />
+          {t('速率限制')}
         </span>
       ),
       content: <RateLimitSetting />,
@@ -128,9 +109,9 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Shapes size={18} />
-          {t('模型相关设置')}
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Shapes size={16} />
+          {t('模型相关')}
         </span>
       ),
       content: <ModelSetting />,
@@ -138,9 +119,9 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Server size={18} />
-          {t('模型部署设置')}
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Server size={16} />
+          {t('模型部署')}
         </span>
       ),
       content: <ModelDeploymentSetting />,
@@ -148,8 +129,8 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Cog size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Cog size={16} />
           {t('系统设置')}
         </span>
       ),
@@ -158,8 +139,8 @@ const Setting = () => {
     });
     panes.push({
       tab: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <MoreHorizontal size={18} />
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <MoreHorizontal size={16} />
           {t('其他设置')}
         </span>
       ),
@@ -180,22 +161,28 @@ const Setting = () => {
       onChangeTab('operation');
     }
   }, [location.search]);
+
   return (
-    <div className='mt-[60px] px-2'>
+    <div className='mt-[60px] px-2 md:px-6 pb-6'>
       <Layout>
         <Layout.Content>
-          <Tabs
-            type='card'
-            collapsible
-            activeKey={tabActiveKey}
-            onChange={(key) => onChangeTab(key)}
-          >
-            {panes.map((pane) => (
-              <TabPane itemKey={pane.itemKey} tab={pane.tab} key={pane.itemKey}>
-                {tabActiveKey === pane.itemKey && pane.content}
-              </TabPane>
-            ))}
-          </Tabs>
+          <div className="modern-card p-2 md:p-6 glass min-h-[calc(100vh-100px)]">
+            <Tabs
+              type='line'
+              activeKey={tabActiveKey}
+              onChange={(key) => onChangeTab(key)}
+              tabPaneMotion={false}
+              className="settings-tabs"
+            >
+              {panes.map((pane) => (
+                <TabPane itemKey={pane.itemKey} tab={pane.tab} key={pane.itemKey}>
+                  <div className="pt-4 md:pt-6 animate-fade-in">
+                    {tabActiveKey === pane.itemKey && pane.content}
+                  </div>
+                </TabPane>
+              ))}
+            </Tabs>
+          </div>
         </Layout.Content>
       </Layout>
     </div>

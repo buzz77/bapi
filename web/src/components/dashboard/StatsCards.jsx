@@ -1,27 +1,9 @@
-/*
-Copyright (C) 2025 QuantumNous
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-For commercial licensing, please contact support@quantumnous.com
-*/
-
 import React from 'react';
 import { Card, Avatar, Skeleton, Tag } from '@douyinfe/semi-ui';
 import { VChart } from '@visactor/react-vchart';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ArrowUpRight } from 'lucide-react';
 
 const StatsCards = ({
   groupedStatsData,
@@ -32,47 +14,39 @@ const StatsCards = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
   return (
-    <div className='mb-4'>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+    <div className='mb-6'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
         {groupedStatsData.map((group, idx) => (
-          <Card
+          <div
             key={idx}
-            {...CARD_PROPS}
-            className={`${group.color} border-0 !rounded-2xl w-full`}
-            title={group.title}
+            className={`modern-card p-5 relative overflow-hidden group hover:-translate-y-1 transition-all duration-300`}
           >
-            <div className='space-y-4'>
+            {/* 装饰背景 */}
+            <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-10 bg-current transition-transform group-hover:scale-150 duration-500 ease-out`} style={{color: group.avatarColor || 'var(--brand-color)'}}></div>
+
+            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">{group.title}</h3>
+
+            <div className='space-y-5 relative z-10'>
               {group.items.map((item, itemIdx) => (
                 <div
                   key={itemIdx}
                   className='flex items-center justify-between cursor-pointer'
                   onClick={item.onClick}
                 >
-                  <div className='flex items-center'>
-                    <Avatar
-                      className='mr-3'
-                      size='small'
-                      color={item.avatarColor}
-                    >
+                  <div className='flex items-center gap-3'>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm text-white transition-transform group-hover:scale-110 duration-300`} style={{backgroundColor: item.avatarColor || 'var(--brand-color)'}}>
                       {item.icon}
-                    </Avatar>
+                    </div>
                     <div>
-                      <div className='text-xs text-gray-500'>{item.title}</div>
-                      <div className='text-lg font-semibold'>
+                      <div className='text-xs text-slate-500 dark:text-slate-400 font-medium mb-0.5'>{item.title}</div>
+                      <div className='text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight'>
                         <Skeleton
                           loading={loading}
                           active
                           placeholder={
-                            <Skeleton.Paragraph
-                              active
-                              rows={1}
-                              style={{
-                                width: '65px',
-                                height: '24px',
-                                marginTop: '4px',
-                              }}
-                            />
+                            <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
                           }
                         >
                           {item.value}
@@ -80,25 +54,24 @@ const StatsCards = ({
                       </div>
                     </div>
                   </div>
+
                   {item.title === t('当前余额') ? (
-                    <Tag
-                      color='white'
-                      shape='circle'
-                      size='large'
+                    <button
+                      className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate('/console/topup');
                       }}
+                      title={t('充值')}
                     >
-                      {t('充值')}
-                    </Tag>
+                      <ArrowUpRight size={16} />
+                    </button>
                   ) : (
-                    (loading ||
-                      (item.trendData && item.trendData.length > 0)) && (
-                      <div className='w-24 h-10'>
+                    (loading || (item.trendData && item.trendData.length > 0)) && (
+                      <div className='w-20 h-10 opacity-80 filter saturate-150'>
                         <VChart
                           spec={getTrendSpec(item.trendData, item.trendColor)}
-                          option={CHART_CONFIG}
+                          option={{ ...CHART_CONFIG, animation: false }} // Disable heavy animation for performance
                         />
                       </div>
                     )
@@ -106,7 +79,7 @@ const StatsCards = ({
                 </div>
               ))}
             </div>
-          </Card>
+          </div>
         ))}
       </div>
     </div>

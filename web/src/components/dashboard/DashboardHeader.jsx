@@ -1,22 +1,3 @@
-/*
-Copyright (C) 2025 QuantumNous
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-For commercial licensing, please contact support@quantumnous.com
-*/
-
 import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { RefreshCw, Search } from 'lucide-react';
@@ -29,29 +10,36 @@ const DashboardHeader = ({
   loading,
   t,
 }) => {
-  const ICON_BUTTON_CLASS = 'text-white hover:bg-opacity-80 !rounded-full';
-
   return (
-    <div className='flex items-center justify-between mb-4'>
-      <h2
-        className='text-2xl font-semibold text-gray-800 transition-opacity duration-1000 ease-in-out'
-        style={{ opacity: greetingVisible ? 1 : 0 }}
-      >
-        {getGreeting}
-      </h2>
-      <div className='flex gap-3'>
+    <div className='flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4'>
+      <div className='flex flex-col'>
+        <h2
+          className='text-3xl font-bold text-slate-800 dark:text-slate-100 transition-opacity duration-1000 ease-in-out tracking-tight'
+          style={{ opacity: greetingVisible ? 1 : 0 }}
+        >
+          {getGreeting}
+        </h2>
+        <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">
+          这里是您的项目概览与关键指标
+        </p>
+      </div>
+
+      <div className='flex gap-3 bg-white dark:bg-slate-800 p-1.5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50'>
         <Button
           type='tertiary'
-          icon={<Search size={16} />}
+          icon={<Search size={18} />}
           onClick={showSearchModal}
-          className={`bg-green-500 hover:bg-green-600 ${ICON_BUTTON_CLASS}`}
+          className='!bg-transparent hover:!bg-slate-100 dark:hover:!bg-slate-700 !text-slate-600 dark:!text-slate-300 !rounded-xl h-10 w-10'
+          aria-label="搜索"
         />
+        <div className="w-px bg-slate-200 dark:bg-slate-700 my-2"></div>
         <Button
           type='tertiary'
-          icon={<RefreshCw size={16} />}
+          icon={<RefreshCw size={18} className={loading ? 'animate-spin' : ''} />}
           onClick={refresh}
-          loading={loading}
-          className={`bg-blue-500 hover:bg-blue-600 ${ICON_BUTTON_CLASS}`}
+          disabled={loading}
+          className='!bg-transparent hover:!bg-slate-100 dark:hover:!bg-slate-700 !text-primary-600 !rounded-xl h-10 w-10'
+          aria-label="刷新"
         />
       </div>
     </div>
