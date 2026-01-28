@@ -137,7 +137,7 @@ export const useTokensData = (openFluentNotification) => {
     }
     if (url.includes('{cherryConfig}') === true) {
       let cherryConfig = {
-        id: 'new-api',
+        id: 'buzz',
         baseUrl: serverAddress,
         apiKey: 'sk-' + record.key,
       };

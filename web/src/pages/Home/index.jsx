@@ -251,7 +251,7 @@ const Home = () => {
                     icon={<IconGithubLogo size='large' />}
                     onClick={() =>
                       window.open(
-                        'https://github.com/QuantumNous/new-api',
+                        'https://github.com/QuantumNous/buzz',
                         '_blank',
                       )
                     }
