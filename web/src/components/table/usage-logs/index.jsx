@@ -18,46 +18,34 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import CardPro from '../../common/ui/CardPro';
-import LogsTable from './UsageLogsTable';
-import LogsActions from './UsageLogsActions';
-import LogsFilters from './UsageLogsFilters';
-import ColumnSelectorModal from './modals/ColumnSelectorModal';
 import UserInfoModal from './modals/UserInfoModal';
 import { useLogsData } from '../../../hooks/usage-logs/useUsageLogsData';
-import { useIsMobile } from '../../../hooks/common/useIsMobile';
-import { createCardProPagination } from '../../../helpers/utils';
+import UsageAnalyticsHeader from './UsageAnalyticsHeader';
+import UsageMetricsCards from './UsageMetricsCards';
+import UsageTimeFilter from './UsageTimeFilter';
+import UsageAnalyticsTable from './UsageAnalyticsTable';
 
-const LogsPage = () => {
+const UsageAnalyticsPage = () => {
   const logsData = useLogsData();
-  const isMobile = useIsMobile();
 
   return (
-    <>
+    <div className="space-y-6">
       {/* Modals */}
-      <ColumnSelectorModal {...logsData} />
       <UserInfoModal {...logsData} />
 
-      {/* Main Content */}
-      <CardPro
-        type='type2'
-        statsArea={<LogsActions {...logsData} />}
-        searchArea={<LogsFilters {...logsData} />}
-        paginationArea={createCardProPagination({
-          currentPage: logsData.activePage,
-          pageSize: logsData.pageSize,
-          total: logsData.logCount,
-          onPageChange: logsData.handlePageChange,
-          onPageSizeChange: logsData.handlePageSizeChange,
-          isMobile: isMobile,
-          t: logsData.t,
-        })}
-        t={logsData.t}
-      >
-        <LogsTable {...logsData} />
-      </CardPro>
-    </>
+      {/* Page Header */}
+      <UsageAnalyticsHeader {...logsData} />
+
+      {/* Time Filter */}
+      <UsageTimeFilter {...logsData} />
+
+      {/* Metrics Cards */}
+      <UsageMetricsCards {...logsData} />
+
+      {/* Analytics Table */}
+      <UsageAnalyticsTable {...logsData} />
+    </div>
   );
 };
 
-export default LogsPage;
+export default UsageAnalyticsPage;

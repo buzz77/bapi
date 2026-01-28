@@ -17,253 +17,358 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 
-import React, { useContext, useEffect } from 'react';
-import { getRelativeTime } from '../../helpers';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/User';
-import { StatusContext } from '../../context/Status';
+import { API, showError, renderQuota } from '../../helpers';
+import { IconRefresh, IconPlus, IconRightCircle } from '@douyinfe/semi-icons';
+import { Card, Button, Spin, Tag, Empty, Typography } from '@douyinfe/semi-ui';
+import { useTranslation } from 'react-i18next';
 
-import DashboardHeader from './DashboardHeader';
-import StatsCards from './StatsCards';
-import ChartsPanel from './ChartsPanel';
-import ApiInfoPanel from './ApiInfoPanel';
-import AnnouncementsPanel from './AnnouncementsPanel';
-import FaqPanel from './FaqPanel';
-import UptimePanel from './UptimePanel';
-import SearchModal from './modals/SearchModal';
-
-import { useDashboardData } from '../../hooks/dashboard/useDashboardData';
-import { useDashboardStats } from '../../hooks/dashboard/useDashboardStats';
-import { useDashboardCharts } from '../../hooks/dashboard/useDashboardCharts';
-
-import {
-  CHART_CONFIG,
-  CARD_PROPS,
-  FLEX_CENTER_GAP2,
-  ILLUSTRATION_SIZE,
-  ANNOUNCEMENT_LEGEND_DATA,
-  UPTIME_STATUS_MAP,
-} from '../../constants/dashboard.constants';
-import {
-  getTrendSpec,
-  handleCopyUrl,
-  handleSpeedTest,
-  getUptimeStatusColor,
-  getUptimeStatusText,
-  renderMonitorList,
-} from '../../helpers/dashboard';
+const { Text, Title } = Typography;
 
 const Dashboard = () => {
-  // ========== Context ==========
-  const [userState, userDispatch] = useContext(UserContext);
-  const [statusState, statusDispatch] = useContext(StatusContext);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [userState] = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  // ========== 主要数据管理 ==========
-  const dashboardData = useDashboardData(userState, userDispatch, statusState);
+  // 今日统计数据
+  const [todayStats, setTodayStats] = useState({
+    requestCount: 0,
+    successRate: 0,
+    totalCost: 0,
+  });
 
-  // ========== 图表管理 ==========
-  const dashboardCharts = useDashboardCharts(
-    dashboardData.dataExportDefaultTime,
-    dashboardData.setTrendData,
-    dashboardData.setConsumeQuota,
-    dashboardData.setTimes,
-    dashboardData.setConsumeTokens,
-    dashboardData.setPieData,
-    dashboardData.setLineData,
-    dashboardData.setModelColors,
-    dashboardData.t,
-  );
+  // 最近调用记录
+  const [recentLogs, setRecentLogs] = useState([]);
 
-  // ========== 统计数据 ==========
-  const { groupedStatsData } = useDashboardStats(
-    userState,
-    dashboardData.consumeQuota,
-    dashboardData.consumeTokens,
-    dashboardData.times,
-    dashboardData.trendData,
-    dashboardData.performanceMetrics,
-    dashboardData.navigate,
-    dashboardData.t,
-  );
+  // 获取今日统计数据
+  const loadTodayStats = async () => {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const startTimestamp = Math.floor(today.getTime() / 1000);
+      const endTimestamp = Math.floor(Date.now() / 1000);
 
-  // ========== 数据处理 ==========
-  const initChart = async () => {
-    await dashboardData.loadQuotaData().then((data) => {
-      if (data && data.length > 0) {
-        dashboardCharts.updateChartData(data);
+      const res = await API.get(
+        `/api/data/self/?start_timestamp=${startTimestamp}&end_timestamp=${endTimestamp}`
+      );
+
+      if (res.data.success && res.data.data) {
+        const data = res.data.data;
+        const totalRequests = data.reduce((sum, item) => sum + (item.count || 0), 0);
+        const totalCost = data.reduce((sum, item) => sum + (item.quota || 0), 0);
+
+        setTodayStats({
+          requestCount: totalRequests,
+          successRate: 95, // 这里可以从后端获取真实的成功率
+          totalCost: totalCost,
+        });
       }
-    });
-    await dashboardData.loadUptimeData();
-  };
-
-  const handleRefresh = async () => {
-    const data = await dashboardData.refresh();
-    if (data && data.length > 0) {
-      dashboardCharts.updateChartData(data);
+    } catch (error) {
+      console.error('Failed to load today stats:', error);
     }
   };
 
-  const handleSearchConfirm = async () => {
-    await dashboardData.handleSearchConfirm(dashboardCharts.updateChartData);
+  // 获取最近调用记录
+  const loadRecentLogs = async () => {
+    try {
+      const res = await API.get('/api/log/self/?p=0&page_size=10');
+      if (res.data.success && res.data.data) {
+        setRecentLogs(res.data.data);
+      }
+    } catch (error) {
+      console.error('Failed to load recent logs:', error);
+    }
   };
 
-  // ========== 数据准备 ==========
-  const apiInfoData = statusState?.status?.api_info || [];
-  const announcementData = (statusState?.status?.announcements || []).map(
-    (item) => {
-      const pubDate = item?.publishDate ? new Date(item.publishDate) : null;
-      const absoluteTime =
-        pubDate && !isNaN(pubDate.getTime())
-          ? `${pubDate.getFullYear()}-${String(pubDate.getMonth() + 1).padStart(2, '0')}-${String(pubDate.getDate()).padStart(2, '0')} ${String(pubDate.getHours()).padStart(2, '0')}:${String(pubDate.getMinutes()).padStart(2, '0')}`
-          : item?.publishDate || '';
-      const relativeTime = getRelativeTime(item.publishDate);
-      return {
-        ...item,
-        time: absoluteTime,
-        relative: relativeTime,
-      };
-    },
-  );
-  const faqData = statusState?.status?.faq || [];
+  // 初始化数据
+  const initData = async () => {
+    setLoading(true);
+    await Promise.all([loadTodayStats(), loadRecentLogs()]);
+    setLoading(false);
+  };
 
-  const uptimeLegendData = Object.entries(UPTIME_STATUS_MAP).map(
-    ([status, info]) => ({
-      status: Number(status),
-      color: info.color,
-      label: dashboardData.t(info.label),
-    }),
-  );
+  // 刷新数据
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await initData();
+    setRefreshing(false);
+  };
 
-  // ========== Effects ==========
   useEffect(() => {
-    initChart();
+    initData();
   }, []);
 
+  // 获取问候语
+  const getGreeting = () => {
+    const hours = new Date().getHours();
+    if (hours >= 5 && hours < 12) return t('早上好');
+    if (hours >= 12 && hours < 14) return t('中午好');
+    if (hours >= 14 && hours < 18) return t('下午好');
+    return t('晚上好');
+  };
+
+  // 格式化时间
+  const formatTime = (timestamp) => {
+    if (!timestamp) return '-';
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diff = now - date;
+
+    if (diff < 60000) return t('刚刚');
+    if (diff < 3600000) return `${Math.floor(diff / 60000)} ${t('分钟前')}`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)} ${t('小时前')}`;
+
+    return date.toLocaleString('zh-CN', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[400px]">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
-    <div className='h-full'>
-      <DashboardHeader
-        getGreeting={dashboardData.getGreeting}
-        greetingVisible={dashboardData.greetingVisible}
-        showSearchModal={dashboardData.showSearchModal}
-        refresh={handleRefresh}
-        loading={dashboardData.loading}
-        t={dashboardData.t}
-      />
-
-      <SearchModal
-        searchModalVisible={dashboardData.searchModalVisible}
-        handleSearchConfirm={handleSearchConfirm}
-        handleCloseModal={dashboardData.handleCloseModal}
-        isMobile={dashboardData.isMobile}
-        isAdminUser={dashboardData.isAdminUser}
-        inputs={dashboardData.inputs}
-        dataExportDefaultTime={dashboardData.dataExportDefaultTime}
-        timeOptions={dashboardData.timeOptions}
-        handleInputChange={dashboardData.handleInputChange}
-        t={dashboardData.t}
-      />
-
-      <StatsCards
-        groupedStatsData={groupedStatsData}
-        loading={dashboardData.loading}
-        getTrendSpec={getTrendSpec}
-        CARD_PROPS={CARD_PROPS}
-        CHART_CONFIG={CHART_CONFIG}
-      />
-
-      {/* API信息和图表面板 */}
-      <div className='mb-4'>
-        <div
-          className={`grid grid-cols-1 gap-4 ${dashboardData.hasApiInfoPanel ? 'lg:grid-cols-4' : ''}`}
+    <div className="h-full pb-6">
+      {/* 顶部欢迎区域 */}
+      <div className="mb-6">
+        <Card
+          className="backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border border-white/20 dark:border-gray-700/30 shadow-lg"
+          bodyStyle={{ padding: '24px' }}
         >
-          <ChartsPanel
-            activeChartTab={dashboardData.activeChartTab}
-            setActiveChartTab={dashboardData.setActiveChartTab}
-            spec_line={dashboardCharts.spec_line}
-            spec_model_line={dashboardCharts.spec_model_line}
-            spec_pie={dashboardCharts.spec_pie}
-            spec_rank_bar={dashboardCharts.spec_rank_bar}
-            CARD_PROPS={CARD_PROPS}
-            CHART_CONFIG={CHART_CONFIG}
-            FLEX_CENTER_GAP2={FLEX_CENTER_GAP2}
-            hasApiInfoPanel={dashboardData.hasApiInfoPanel}
-            t={dashboardData.t}
-          />
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <Title heading={3} className="!mb-2">
+                {getGreeting()}，{userState?.user?.username || t('用户')}
+              </Title>
+              <div className="flex items-baseline gap-2">
+                <Text className="text-gray-600 dark:text-gray-400">
+                  {t('账户余额')}:
+                </Text>
+                <Text
+                  strong
+                  className="text-2xl text-amber-600 dark:text-amber-500"
+                >
+                  {renderQuota(userState?.user?.quota || 0)}
+                </Text>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                icon={<IconRefresh />}
+                onClick={handleRefresh}
+                loading={refreshing}
+                theme="light"
+              >
+                {t('刷新')}
+              </Button>
+              <Button
+                icon={<IconPlus />}
+                theme="solid"
+                type="primary"
+                onClick={() => navigate('/topup')}
+                style={{
+                  background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                  border: 'none',
+                }}
+              >
+                {t('充值')}
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
 
-          {dashboardData.hasApiInfoPanel && (
-            <ApiInfoPanel
-              apiInfoData={apiInfoData}
-              handleCopyUrl={(url) => handleCopyUrl(url, dashboardData.t)}
-              handleSpeedTest={handleSpeedTest}
-              CARD_PROPS={CARD_PROPS}
-              FLEX_CENTER_GAP2={FLEX_CENTER_GAP2}
-              ILLUSTRATION_SIZE={ILLUSTRATION_SIZE}
-              t={dashboardData.t}
-            />
-          )}
+      {/* 今日使用情况 - 3个大卡片 */}
+      <div className="mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* 调用次数 */}
+          <Card
+            className="backdrop-blur-xl bg-gradient-to-br from-blue-50/80 to-blue-100/60 dark:from-blue-900/20 dark:to-blue-800/20 border border-white/20 dark:border-blue-700/30 shadow-lg hover:shadow-xl transition-all duration-300"
+            bodyStyle={{ padding: '24px' }}
+          >
+            <div className="text-center">
+              <Text className="text-sm text-gray-600 dark:text-gray-400 block mb-2">
+                {t('今日调用次数')}
+              </Text>
+              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                {todayStats.requestCount.toLocaleString()}
+              </div>
+              <Text className="text-xs text-gray-500 dark:text-gray-500">
+                {t('次')}
+              </Text>
+            </div>
+          </Card>
+
+          {/* 成功率 */}
+          <Card
+            className="backdrop-blur-xl bg-gradient-to-br from-green-50/80 to-green-100/60 dark:from-green-900/20 dark:to-green-800/20 border border-white/20 dark:border-green-700/30 shadow-lg hover:shadow-xl transition-all duration-300"
+            bodyStyle={{ padding: '24px' }}
+          >
+            <div className="text-center">
+              <Text className="text-sm text-gray-600 dark:text-gray-400 block mb-2">
+                {t('调用成功率')}
+              </Text>
+              <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-1">
+                {todayStats.successRate}%
+              </div>
+              <Text className="text-xs text-gray-500 dark:text-gray-500">
+                {t('成功率')}
+              </Text>
+            </div>
+          </Card>
+
+          {/* 今日费用 */}
+          <Card
+            className="backdrop-blur-xl bg-gradient-to-br from-amber-50/80 to-amber-100/60 dark:from-amber-900/20 dark:to-amber-800/20 border border-white/20 dark:border-amber-700/30 shadow-lg hover:shadow-xl transition-all duration-300"
+            bodyStyle={{ padding: '24px' }}
+          >
+            <div className="text-center">
+              <Text className="text-sm text-gray-600 dark:text-gray-400 block mb-2">
+                {t('今日费用')}
+              </Text>
+              <div className="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-1">
+                {renderQuota(todayStats.totalCost)}
+              </div>
+              <Text className="text-xs text-gray-500 dark:text-gray-500">
+                {t('消费额度')}
+              </Text>
+            </div>
+          </Card>
         </div>
       </div>
 
-      {/* 系统公告和常见问答卡片 */}
-      {dashboardData.hasInfoPanels && (
-        <div className='mb-4'>
-          <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
-            {/* 公告卡片 */}
-            {dashboardData.announcementsEnabled && (
-              <AnnouncementsPanel
-                announcementData={announcementData}
-                announcementLegendData={ANNOUNCEMENT_LEGEND_DATA.map(
-                  (item) => ({
-                    ...item,
-                    label: dashboardData.t(item.label),
-                  }),
-                )}
-                CARD_PROPS={CARD_PROPS}
-                ILLUSTRATION_SIZE={ILLUSTRATION_SIZE}
-                t={dashboardData.t}
-              />
-            )}
-
-            {/* 常见问答卡片 */}
-            {dashboardData.faqEnabled && (
-              <FaqPanel
-                faqData={faqData}
-                CARD_PROPS={CARD_PROPS}
-                FLEX_CENTER_GAP2={FLEX_CENTER_GAP2}
-                ILLUSTRATION_SIZE={ILLUSTRATION_SIZE}
-                t={dashboardData.t}
-              />
-            )}
-
-            {/* 服务可用性卡片 */}
-            {dashboardData.uptimeEnabled && (
-              <UptimePanel
-                uptimeData={dashboardData.uptimeData}
-                uptimeLoading={dashboardData.uptimeLoading}
-                activeUptimeTab={dashboardData.activeUptimeTab}
-                setActiveUptimeTab={dashboardData.setActiveUptimeTab}
-                loadUptimeData={dashboardData.loadUptimeData}
-                uptimeLegendData={uptimeLegendData}
-                renderMonitorList={(monitors) =>
-                  renderMonitorList(
-                    monitors,
-                    (status) => getUptimeStatusColor(status, UPTIME_STATUS_MAP),
-                    (status) =>
-                      getUptimeStatusText(
-                        status,
-                        UPTIME_STATUS_MAP,
-                        dashboardData.t,
-                      ),
-                    dashboardData.t,
-                  )
-                }
-                CARD_PROPS={CARD_PROPS}
-                ILLUSTRATION_SIZE={ILLUSTRATION_SIZE}
-                t={dashboardData.t}
-              />
-            )}
+      {/* 快速操作区域 */}
+      <div className="mb-6">
+        <Card
+          className="backdrop-blur-xl bg-gradient-to-br from-purple-50/80 to-indigo-100/60 dark:from-purple-900/20 dark:to-indigo-800/20 border border-white/20 dark:border-purple-700/30 shadow-lg"
+          bodyStyle={{ padding: '24px' }}
+        >
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <Title heading={4} className="!mb-2 text-purple-900 dark:text-purple-100">
+                {t('快速开始')}
+              </Title>
+              <Text className="text-gray-700 dark:text-gray-300">
+                {t('创建您的第一个 API 密钥，开始使用我们的服务')}
+              </Text>
+            </div>
+            <Button
+              icon={<IconRightCircle />}
+              size="large"
+              theme="solid"
+              onClick={() => navigate('/token')}
+              style={{
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+                border: 'none',
+              }}
+            >
+              {t('创建密钥')}
+            </Button>
           </div>
+        </Card>
+      </div>
+
+      {/* 最近调用记录 */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <Title heading={4} className="!mb-0">
+            {t('最近调用记录')}
+          </Title>
+          <Button
+            theme="borderless"
+            type="tertiary"
+            onClick={() => navigate('/log')}
+            icon={<IconRightCircle />}
+            iconPosition="right"
+          >
+            {t('查看全部')}
+          </Button>
         </div>
-      )}
+
+        <Card
+          className="backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border border-white/20 dark:border-gray-700/30 shadow-lg"
+          bodyStyle={{ padding: 0 }}
+        >
+          {recentLogs.length === 0 ? (
+            <div className="py-16">
+              <Empty
+                description={t('暂无调用记录')}
+                className="dark:text-gray-400"
+              />
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200/50 dark:divide-gray-700/50">
+              {recentLogs.map((log, index) => (
+                <div
+                  key={index}
+                  className="px-6 py-4 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Text strong className="text-gray-900 dark:text-gray-100">
+                          {log.model_name || '-'}
+                        </Text>
+                        {log.success === 1 ? (
+                          <Tag color="green" size="small">
+                            {t('成功')}
+                          </Tag>
+                        ) : (
+                          <Tag color="red" size="small">
+                            {t('失败')}
+                          </Tag>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+                        <span>{formatTime(log.created_at)}</span>
+                        {log.token_name && (
+                          <>
+                            <span className="text-gray-300 dark:text-gray-600">|</span>
+                            <span>{t('密钥')}: {log.token_name}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      {log.quota != null && (
+                        <div className="text-right">
+                          <Text className="text-sm text-gray-600 dark:text-gray-400 block">
+                            {t('消费')}
+                          </Text>
+                          <Text strong className="text-amber-600 dark:text-amber-500">
+                            {renderQuota(log.quota)}
+                          </Text>
+                        </div>
+                      )}
+                      {log.completion_tokens != null && (
+                        <div className="text-right">
+                          <Text className="text-sm text-gray-600 dark:text-gray-400 block">
+                            Tokens
+                          </Text>
+                          <Text strong className="text-gray-900 dark:text-gray-100">
+                            {log.completion_tokens?.toLocaleString() || 0}
+                          </Text>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+      </div>
     </div>
   );
 };

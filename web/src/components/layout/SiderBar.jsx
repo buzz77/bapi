@@ -48,6 +48,43 @@ const SiderBar = ({ onNavigate = () => {} }) => {
   const location = useLocation();
   const [routerMapState, setRouterMapState] = useState(routerMap);
 
+  // 普通用户核心功能菜单（5个主要功能）
+  const coreItems = useMemo(() => {
+    const items = [
+      {
+        text: '📊 ' + t('概览'),
+        itemKey: 'detail',
+        to: '/detail',
+      },
+      {
+        text: '🔑 ' + t('API 密钥'),
+        itemKey: 'token',
+        to: '/token',
+      },
+      {
+        text: '📈 ' + t('使用分析'),
+        itemKey: 'log',
+        to: '/log',
+      },
+      {
+        text: '💰 ' + t('账户充值'),
+        itemKey: 'topup',
+        to: '/topup',
+      },
+      {
+        text: '⚙️ ' + t('个人设置'),
+        itemKey: 'personal',
+        to: '/personal',
+      },
+    ];
+
+    return items.filter((item) => {
+      const section = ['detail', 'token', 'log'].includes(item.itemKey) ? 'console' : 'personal';
+      const configVisible = isModuleVisible(section, item.itemKey);
+      return configVisible;
+    });
+  }, [t, isModuleVisible]);
+
   const workspaceItems = useMemo(() => {
     const items = [
       {
@@ -119,47 +156,49 @@ const SiderBar = ({ onNavigate = () => {} }) => {
     });
   }, [t, isModuleVisible]);
 
+  // 管理员菜单（只有管理员可见）
   const adminItems = useMemo(() => {
     const items = [
       {
-        text: t('渠道管理'),
+        text: '🔌 ' + t('渠道管理'),
         itemKey: 'channel',
         to: '/channel',
-        className: isAdmin() ? '' : 'tableHiddle',
       },
       {
-        text: t('模型管理'),
+        text: '🤖 ' + t('模型管理'),
         itemKey: 'models',
         to: '/console/models',
-        className: isAdmin() ? '' : 'tableHiddle',
       },
       {
-        text: t('模型部署'),
+        text: '🚀 ' + t('模型部署'),
         itemKey: 'deployment',
         to: '/deployment',
-        className: isAdmin() ? '' : 'tableHiddle',
       },
       {
-        text: t('兑换码管理'),
+        text: '🎫 ' + t('兑换码'),
         itemKey: 'redemption',
         to: '/redemption',
-        className: isAdmin() ? '' : 'tableHiddle',
       },
       {
-        text: t('用户管理'),
+        text: '👥 ' + t('用户管理'),
         itemKey: 'user',
         to: '/user',
-        className: isAdmin() ? '' : 'tableHiddle',
       },
       {
-        text: t('系统设置'),
+        text: '🛠️ ' + t('系统设置'),
         itemKey: 'setting',
         to: '/setting',
-        className: isRoot() ? '' : 'tableHiddle',
+        className: isRoot() ? '' : 'tableHiddle', // 只有 root 可见
       },
     ];
 
     return items.filter((item) => {
+      // 检查是否是管理员
+      if (!isAdmin() && !isRoot()) return false;
+
+      // 系统设置只有 root 可见
+      if (item.itemKey === 'setting' && !isRoot()) return false;
+
       const configVisible = isModuleVisible('admin', item.itemKey);
       return configVisible;
     });
@@ -416,52 +455,67 @@ const SiderBar = ({ onNavigate = () => {} }) => {
               setOpenedKeys(data.openKeys);
             }}
           >
-            {/* Chat Section */}
-            {hasSectionVisibleModules('chat') && (
-              <div className='sidebar-section px-1'>
+            {/* 普通用户：只显示核心功能 */}
+            {!isAdmin() && !isRoot() && (
+              <div className="px-1">
                 {!collapsed && (
-                  <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-3 transition-colors duration-200'>{t('聊天')}</div>
+                  <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 px-3 pt-3 transition-colors duration-200'>{t('核心功能')}</div>
                 )}
-                {chatMenuItems.map((item) => renderSubItem(item))}
+                {coreItems.map((item) => renderNavItem(item))}
               </div>
             )}
 
-            {/* Console Section */}
-            {hasSectionVisibleModules('console') && (
+            {/* 管理员：显示完整菜单 */}
+            {(isAdmin() || isRoot()) && (
               <>
-                <div className="my-3 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
-                <div className="px-1">
-                  {!collapsed && (
-                    <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-1 transition-colors duration-200'>{t('控制台')}</div>
-                  )}
-                  {workspaceItems.map((item) => renderNavItem(item))}
-                </div>
-              </>
-            )}
+                {/* Chat Section */}
+                {hasSectionVisibleModules('chat') && (
+                  <div className='sidebar-section px-1'>
+                    {!collapsed && (
+                      <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-3 transition-colors duration-200'>{t('聊天')}</div>
+                    )}
+                    {chatMenuItems.map((item) => renderSubItem(item))}
+                  </div>
+                )}
 
-            {/* Personal Section */}
-            {hasSectionVisibleModules('personal') && (
-              <>
-                <div className="my-3 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
-                <div className="px-1">
-                  {!collapsed && (
-                    <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-1 transition-colors duration-200'>{t('个人中心')}</div>
-                  )}
-                  {financeItems.map((item) => renderNavItem(item))}
-                </div>
-              </>
-            )}
+                {/* Console Section */}
+                {hasSectionVisibleModules('console') && (
+                  <>
+                    <div className="my-4 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
+                    <div className="px-1">
+                      {!collapsed && (
+                        <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 px-3 pt-1 transition-colors duration-200'>{t('控制台')}</div>
+                      )}
+                      {workspaceItems.map((item) => renderNavItem(item))}
+                    </div>
+                  </>
+                )}
 
-            {/* Admin Section */}
-            {isAdmin() && hasSectionVisibleModules('admin') && (
-              <>
-                <div className="my-3 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
-                <div className="px-1">
-                  {!collapsed && (
-                    <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-1 transition-colors duration-200'>{t('管理员')}</div>
-                  )}
-                  {adminItems.map((item) => renderNavItem(item))}
-                </div>
+                {/* Personal Section */}
+                {hasSectionVisibleModules('personal') && (
+                  <>
+                    <div className="my-4 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
+                    <div className="px-1">
+                      {!collapsed && (
+                        <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 px-3 pt-1 transition-colors duration-200'>{t('个人中心')}</div>
+                      )}
+                      {financeItems.map((item) => renderNavItem(item))}
+                    </div>
+                  </>
+                )}
+
+                {/* Admin Section */}
+                {hasSectionVisibleModules('admin') && adminItems.length > 0 && (
+                  <>
+                    <div className="my-4 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
+                    <div className="px-1">
+                      {!collapsed && (
+                        <div className='text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-3 px-3 pt-1 transition-colors duration-200 font-bold'>{t('管理员')}</div>
+                      )}
+                      {adminItems.map((item) => renderNavItem(item))}
+                    </div>
+                  </>
+                )}
               </>
             )}
           </Nav>
