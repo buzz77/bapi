@@ -28,7 +28,7 @@ import { Button, Input, Table, Card, Radio, RadioGroup, Spin, Typography, Space 
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../context/User';
 import { StatusContext } from '../../context/Status';
-import { IconAlipay, IconWechatpay, IconCreditCard, IconTick, IconClock as IconTime, IconClose as IconClear } from '@douyinfe/semi-icons';
+import { IconAlipay, IconWechatpay, IconCreditCard, IconTick, IconClock, IconClose } from '@douyinfe/semi-icons';
 
 const { Title, Text } = Typography;
 
@@ -73,7 +73,7 @@ const TopUp = () => {
 
   // 状态图标映射
   const statusIcons = {
-    success: <IconTickCircle style={{ color: 'var(--semi-color-success)' }} />,
+    success: <IconTick style={{ color: 'var(--semi-color-success)' }} />,
     pending: <IconClock style={{ color: 'var(--semi-color-warning)' }} />,
     failed: <IconClose style={{ color: 'var(--semi-color-danger)' }} />,
   };
