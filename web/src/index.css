@@ -212,22 +212,88 @@ body[theme-mode='dark'] .modern-card:hover {
 }
 
 /* ==================== 导航项样式 ==================== */
+/* ==================== 侧边栏导航样式优化 ==================== */
 .sidebar-nav .semi-navigation-item {
-  border-radius: 6px;
-  margin: 2px 8px;
+  border-radius: 8px;
+  margin: 3px 10px;
+  padding: 8px 12px;
   color: var(--semi-color-text-2);
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .sidebar-nav .semi-navigation-item:hover {
-  background-color: var(--semi-color-bg-2) !important;
+  background-color: rgba(148, 163, 184, 0.1) !important;
   color: var(--semi-color-text-0);
+  transform: translateX(2px);
 }
 
 .sidebar-nav .semi-navigation-item-selected {
-  background-color: var(--brand-color) !important;
-  color: var(--brand-text-on-color) !important;
-  font-weight: 500;
+  background-color: #F59E0B !important;
+  color: #1F2937 !important;
+  font-weight: 600;
+  box-shadow: 0 1px 3px 0 rgba(245, 158, 11, 0.3), 0 1px 2px -1px rgba(245, 158, 11, 0.3);
+}
+
+/* 深色模式下的侧边栏导航 */
+body[theme-mode='dark'] .sidebar-nav .semi-navigation-item {
+  color: rgb(203, 213, 225);
+}
+
+body[theme-mode='dark'] .sidebar-nav .semi-navigation-item:hover {
+  background-color: rgba(148, 163, 184, 0.15) !important;
+  color: rgb(226, 232, 240);
+}
+
+body[theme-mode='dark'] .sidebar-nav .semi-navigation-item-selected {
+  background-color: #F59E0B !important;
+  color: #1F2937 !important;
+  box-shadow: 0 1px 3px 0 rgba(245, 158, 11, 0.4), 0 1px 2px -1px rgba(245, 158, 11, 0.4);
+}
+
+/* 导航项图标样式 */
+.sidebar-nav .semi-navigation-item .sidebar-icon-container {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav .semi-navigation-item-selected .sidebar-icon-container {
+  transform: scale(1.1);
+}
+
+/* 子菜单样式 */
+.sidebar-nav .semi-navigation-sub {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav .semi-navigation-sub-title:hover {
+  background-color: rgba(148, 163, 184, 0.1) !important;
+  transform: translateX(2px);
+}
+
+body[theme-mode='dark'] .sidebar-nav .semi-navigation-sub-title:hover {
+  background-color: rgba(148, 163, 184, 0.15) !important;
+}
+
+/* 自定义导航项类 */
+.nav-item-custom {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item-selected {
+  position: relative;
+}
+
+.nav-item-selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background-color: #D97706;
+  border-radius: 0 2px 2px 0;
+  opacity: 0.8;
 }
 
 /* ==================== 滚动条样式 ==================== */

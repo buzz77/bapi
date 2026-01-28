@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import { Card, Tabs, TabPane } from '@douyinfe/semi-ui';
+import { Tabs, TabPane } from '@douyinfe/semi-ui';
 import { PieChart } from 'lucide-react';
 import { VChart } from '@visactor/react-vchart';
 
@@ -36,30 +36,28 @@ const ChartsPanel = ({
   t,
 }) => {
   return (
-    <Card
-      {...CARD_PROPS}
-      className={`bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] ${hasApiInfoPanel ? 'lg:col-span-3' : ''}`}
-      title={
-        <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between w-full gap-3'>
-          <div className={`${FLEX_CENTER_GAP2} text-[var(--semi-color-text-0)] font-medium`}>
+    <div className={`glass-card hover:scale-[1.02] transition-all duration-300 ${hasApiInfoPanel ? 'lg:col-span-3' : ''}`}>
+      <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between w-full gap-3 mb-4'>
+        <div className='flex items-center gap-2'>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white shadow-md" style={{backgroundColor: 'var(--semi-color-primary)'}}>
             <PieChart size={16} />
-            {t('模型数据分析')}
           </div>
-          <Tabs
-            type='slash'
-            activeKey={activeChartTab}
-            onChange={setActiveChartTab}
-          >
-            <TabPane tab={<span>{t('消耗分布')}</span>} itemKey='1' />
-            <TabPane tab={<span>{t('消耗趋势')}</span>} itemKey='2' />
-            <TabPane tab={<span>{t('调用次数分布')}</span>} itemKey='3' />
-            <TabPane tab={<span>{t('调用次数排行')}</span>} itemKey='4' />
-          </Tabs>
+          <h3 className="text-sm font-semibold text-[var(--semi-color-text-1)]">
+            {t('模型数据分析')}
+          </h3>
         </div>
-      }
-      bodyStyle={{ padding: 0 }}
-    >
-      <div className='h-96 p-4'>
+        <Tabs
+          type='slash'
+          activeKey={activeChartTab}
+          onChange={setActiveChartTab}
+        >
+          <TabPane tab={<span>{t('消耗分布')}</span>} itemKey='1' />
+          <TabPane tab={<span>{t('消耗趋势')}</span>} itemKey='2' />
+          <TabPane tab={<span>{t('调用次数分布')}</span>} itemKey='3' />
+          <TabPane tab={<span>{t('调用次数排行')}</span>} itemKey='4' />
+        </Tabs>
+      </div>
+      <div className='h-96'>
         {activeChartTab === '1' && (
           <VChart spec={spec_line} option={CHART_CONFIG} />
         )}
@@ -73,7 +71,7 @@ const ChartsPanel = ({
           <VChart spec={spec_rank_bar} option={CHART_CONFIG} />
         )}
       </div>
-    </Card>
+    </div>
   );
 };
 

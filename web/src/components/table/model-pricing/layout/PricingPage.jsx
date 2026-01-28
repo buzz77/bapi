@@ -43,12 +43,12 @@ const PricingPage = () => {
     <div className='h-full'>
       <Layout className='pricing-layout h-full'>
         {!isMobile && (
-          <Sider className='pricing-scroll-hide pricing-sidebar bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'>
+          <Sider className='pricing-scroll-hide pricing-sidebar glass-card transition-all duration-300'>
             <PricingSidebar {...allProps} />
           </Sider>
         )}
 
-        <Content className='pricing-scroll-hide pricing-content bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] ml-4'>
+        <Content className={`pricing-scroll-hide pricing-content glass-card transition-all duration-300 ${!isMobile ? 'ml-4' : ''}`}>
           <PricingContent
             {...allProps}
             isMobile={isMobile}

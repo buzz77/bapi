@@ -259,14 +259,14 @@ const SiderBar = ({ onNavigate = () => {} }) => {
     }
   }, [collapsed]);
 
-  const SELECTED_COLOR = 'var(--brand-color)';
+  const SELECTED_COLOR = '#F59E0B'; // Amber-500
 
   const renderNavItem = (item) => {
     if (item.className === 'tableHiddle') return null;
 
     const isSelected = selectedKeys.includes(item.itemKey);
-    // Dark mode text color handling for selected item
-    const textColor = isSelected ? '#1A1A1A' : 'inherit';
+    // Dark mode text color handling for selected item - use dark text on amber background
+    const textColor = isSelected ? '#1F2937' : 'inherit';
 
     return (
       <Nav.Item
@@ -274,18 +274,26 @@ const SiderBar = ({ onNavigate = () => {} }) => {
         itemKey={item.itemKey}
         text={
           <span
-            className={`truncate font-medium text-sm transition-colors ${isSelected ? 'font-bold' : ''}`}
-            style={{ color: textColor }}
+            className={`truncate text-sm transition-all duration-200 ${
+              isSelected
+                ? 'font-semibold text-gray-900 dark:text-gray-900'
+                : 'font-medium text-slate-700 dark:text-slate-300'
+            }`}
+            style={{ color: isSelected ? textColor : undefined }}
           >
             {item.text}
           </span>
         }
         icon={
-          <div className={`sidebar-icon-container flex-shrink-0 transition-colors ${isSelected ? 'text-[#1A1A1A]' : 'text-slate-500 dark:text-slate-400'}`}>
+          <div className={`sidebar-icon-container flex-shrink-0 transition-all duration-200 ${
+            isSelected
+              ? 'text-gray-900 dark:text-gray-900 scale-110'
+              : 'text-slate-500 dark:text-slate-400'
+          }`}>
             {getLucideIcon(item.itemKey, isSelected)}
           </div>
         }
-        className={`${item.className} ${isSelected ? 'shadow-sm' : ''}`}
+        className={`nav-item-custom ${item.className} ${isSelected ? 'nav-item-selected' : ''}`}
       />
     );
   };
@@ -300,20 +308,21 @@ const SiderBar = ({ onNavigate = () => {} }) => {
           itemKey={item.itemKey}
           text={
             <span
-              className='truncate font-medium text-sm text-slate-700 dark:text-slate-300'
+              className='truncate font-medium text-sm text-slate-700 dark:text-slate-300 transition-colors duration-200'
             >
               {item.text}
             </span>
           }
           icon={
-            <div className='sidebar-icon-container flex-shrink-0 text-slate-500 dark:text-slate-400'>
+            <div className='sidebar-icon-container flex-shrink-0 text-slate-500 dark:text-slate-400 transition-all duration-200'>
               {getLucideIcon(item.itemKey, isSelected)}
             </div>
           }
+          className='nav-sub-custom'
         >
           {item.items.map((subItem) => {
             const isSubSelected = selectedKeys.includes(subItem.itemKey);
-            const subTextColor = isSubSelected ? '#1A1A1A' : 'inherit';
+            const subTextColor = isSubSelected ? '#1F2937' : 'inherit';
 
             return (
               <Nav.Item
@@ -321,12 +330,17 @@ const SiderBar = ({ onNavigate = () => {} }) => {
                 itemKey={subItem.itemKey}
                 text={
                   <span
-                    className={`truncate font-medium text-sm transition-colors ${isSubSelected ? 'font-bold' : ''}`}
-                    style={{ color: subTextColor }}
+                    className={`truncate text-sm transition-all duration-200 ${
+                      isSubSelected
+                        ? 'font-semibold text-gray-900 dark:text-gray-900'
+                        : 'font-medium text-slate-600 dark:text-slate-400'
+                    }`}
+                    style={{ color: isSubSelected ? subTextColor : undefined }}
                   >
                     {subItem.text}
                   </span>
                 }
+                className={`nav-item-custom ${isSubSelected ? 'nav-item-selected' : ''}`}
               />
             );
           })}
@@ -360,9 +374,21 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             isCollapsed={collapsed}
             onCollapseChange={toggleCollapsed}
             selectedKeys={selectedKeys}
-            itemStyle={{ borderRadius: '6px', margin: '2px 8px' }}
-            hoverStyle={{ backgroundColor: 'var(--semi-color-bg-2)' }}
-            selectedStyle={{ backgroundColor: 'var(--brand-color)', color: '#1A1A1A' }}
+            itemStyle={{
+              borderRadius: '8px',
+              margin: '3px 10px',
+              padding: '8px 12px',
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            hoverStyle={{
+              backgroundColor: 'rgba(148, 163, 184, 0.1)',
+              transform: 'translateX(2px)'
+            }}
+            selectedStyle={{
+              backgroundColor: '#F59E0B',
+              color: '#1F2937',
+              boxShadow: '0 1px 3px 0 rgba(245, 158, 11, 0.3), 0 1px 2px -1px rgba(245, 158, 11, 0.3)'
+            }}
             renderWrapper={({ itemElement, props }) => {
               const to =
                 routerMapState[props.itemKey] || routerMap[props.itemKey];
@@ -394,7 +420,7 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {hasSectionVisibleModules('chat') && (
               <div className='sidebar-section px-1'>
                 {!collapsed && (
-                  <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-3'>{t('聊天')}</div>
+                  <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-3 transition-colors duration-200'>{t('聊天')}</div>
                 )}
                 {chatMenuItems.map((item) => renderSubItem(item))}
               </div>
@@ -403,10 +429,10 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {/* Console Section */}
             {hasSectionVisibleModules('console') && (
               <>
-                <div className="my-2 mx-3 border-t border-[var(--semi-color-border)]"></div>
+                <div className="my-3 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
                 <div className="px-1">
                   {!collapsed && (
-                    <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-1'>{t('控制台')}</div>
+                    <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-1 transition-colors duration-200'>{t('控制台')}</div>
                   )}
                   {workspaceItems.map((item) => renderNavItem(item))}
                 </div>
@@ -416,10 +442,10 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {/* Personal Section */}
             {hasSectionVisibleModules('personal') && (
               <>
-                <div className="my-2 mx-3 border-t border-[var(--semi-color-border)]"></div>
+                <div className="my-3 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
                 <div className="px-1">
                   {!collapsed && (
-                    <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-1'>{t('个人中心')}</div>
+                    <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-1 transition-colors duration-200'>{t('个人中心')}</div>
                   )}
                   {financeItems.map((item) => renderNavItem(item))}
                 </div>
@@ -429,10 +455,10 @@ const SiderBar = ({ onNavigate = () => {} }) => {
             {/* Admin Section */}
             {isAdmin() && hasSectionVisibleModules('admin') && (
               <>
-                <div className="my-2 mx-3 border-t border-[var(--semi-color-border)]"></div>
+                <div className="my-3 mx-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200"></div>
                 <div className="px-1">
                   {!collapsed && (
-                    <div className='text-xs font-medium text-[var(--semi-color-text-3)] uppercase tracking-wide mb-1 px-3 pt-1'>{t('管理员')}</div>
+                    <div className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 px-3 pt-1 transition-colors duration-200'>{t('管理员')}</div>
                   )}
                   {adminItems.map((item) => renderNavItem(item))}
                 </div>
@@ -443,7 +469,7 @@ const SiderBar = ({ onNavigate = () => {} }) => {
       </SkeletonWrapper>
 
       {/* Footer Collapse Button */}
-      <div className='p-2 border-t border-[var(--semi-color-border)]'>
+      <div className='p-3 border-t border-slate-200 dark:border-slate-700 transition-colors duration-200'>
         <SkeletonWrapper
           loading={showSkeleton}
           type='button'
@@ -454,16 +480,16 @@ const SiderBar = ({ onNavigate = () => {} }) => {
           <Button
             theme='borderless'
             type='tertiary'
-            className={`w-full hover:bg-[var(--semi-color-bg-2)] !rounded-md transition-colors ${collapsed ? 'px-0 justify-center' : 'px-3 justify-start'}`}
+            className={`w-full hover:bg-slate-100 dark:hover:bg-slate-800 !rounded-lg transition-all duration-200 ${collapsed ? 'px-0 justify-center' : 'px-3 justify-start'}`}
             icon={
               <ChevronLeft
-                size={16}
-                className={`text-[var(--semi-color-text-2)] transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`}
+                size={18}
+                className={`text-slate-500 dark:text-slate-400 transition-all duration-300 ease-in-out ${collapsed ? 'rotate-180' : ''}`}
               />
             }
             onClick={toggleCollapsed}
           >
-            {!collapsed && <span className="ml-2 text-[var(--semi-color-text-2)] text-sm">{t('收起')}</span>}
+            {!collapsed && <span className="ml-2 text-slate-600 dark:text-slate-400 text-sm font-medium transition-colors duration-200">{t('收起')}</span>}
           </Button>
         </SkeletonWrapper>
       </div>

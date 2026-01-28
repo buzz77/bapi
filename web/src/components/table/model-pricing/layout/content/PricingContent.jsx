@@ -24,10 +24,10 @@ import PricingView from './PricingView';
 const PricingContent = ({ isMobile, sidebarProps, ...props }) => {
   return (
     <div
-      className={isMobile ? 'pricing-content-mobile' : 'pricing-scroll-hide'}
+      className={`${isMobile ? 'pricing-content-mobile' : 'pricing-scroll-hide'} transition-all duration-300`}
     >
       {/* 固定的顶部区域（分类介绍 + 搜索和操作） */}
-      <div className='pricing-search-header'>
+      <div className='pricing-search-header backdrop-blur-sm bg-[var(--semi-color-bg-0)]/50 sticky top-0 z-10 border-b border-[var(--semi-color-border)]/50'>
         <PricingTopSection
           {...props}
           isMobile={isMobile}
@@ -47,9 +47,9 @@ const PricingContent = ({ isMobile, sidebarProps, ...props }) => {
 
       {/* 可滚动的内容区域 */}
       <div
-        className={
+        className={`${
           isMobile ? 'pricing-view-container-mobile' : 'pricing-view-container'
-        }
+        } animate-fadeIn`}
       >
         <PricingView {...props} viewMode={sidebarProps.viewMode} />
       </div>

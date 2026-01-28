@@ -47,10 +47,10 @@ import { useIsMobile } from '../../../../../hooks/common/useIsMobile';
 
 const CARD_STYLES = {
   container:
-    'w-12 h-12 rounded-2xl flex items-center justify-center relative shadow-md',
+    'w-12 h-12 rounded-2xl flex items-center justify-center relative shadow-md transition-transform duration-300 hover:scale-110',
   icon: 'w-8 h-8 flex items-center justify-center',
-  selected: 'border-blue-500 bg-blue-50',
-  default: 'border-gray-200 hover:border-gray-300',
+  selected: 'border-[var(--brand-color)] bg-[var(--brand-color)]/10',
+  default: 'border-[var(--semi-color-border)]/50 hover:border-[var(--brand-color)]/50',
 };
 
 const PricingCardView = ({
@@ -233,8 +233,8 @@ const PricingCardView = ({
   }
 
   return (
-    <div className='px-2 pt-2'>
-      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4'>
+    <div className='px-4 pt-4'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-5'>
         {paginatedModels.map((model, index) => {
           const modelKey = getModelKey(model);
           const isSelected = selectedRowKeys.includes(modelKey);
@@ -251,8 +251,8 @@ const PricingCardView = ({
           return (
             <Card
               key={modelKey || index}
-              className={`!rounded-2xl transition-all duration-200 hover:shadow-lg border cursor-pointer ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
-              bodyStyle={{ height: '100%' }}
+              className={`glass-card !p-6 hover:scale-[1.02] transition-all duration-300 cursor-pointer ${isSelected ? CARD_STYLES.selected : ''}`}
+              bodyStyle={{ height: '100%', padding: 0 }}
               onClick={() => openModelDetail && openModelDetail(model)}
             >
               <div className='flex flex-col h-full'>
@@ -261,10 +261,10 @@ const PricingCardView = ({
                   <div className='flex items-start space-x-3 flex-1 min-w-0'>
                     {getModelIcon(model)}
                     <div className='flex-1 min-w-0'>
-                      <h3 className='text-lg font-bold text-gray-900 truncate'>
+                      <h3 className='text-lg font-bold text-[var(--semi-color-text-0)] truncate'>
                         {model.model_name}
                       </h3>
-                      <div className='flex items-center gap-3 text-xs mt-1'>
+                      <div className='flex items-center gap-3 text-xs mt-1 text-[var(--semi-color-text-2)]'>
                         {formatPriceInfo(priceData, t)}
                       </div>
                     </div>
@@ -277,6 +277,7 @@ const PricingCardView = ({
                       theme='outline'
                       type='tertiary'
                       icon={<Copy size={12} />}
+                      className='hover:text-[var(--brand-color)] hover:border-[var(--brand-color)] transition-all duration-300'
                       onClick={(e) => {
                         e.stopPropagation();
                         copyText(model.model_name);
@@ -313,16 +314,16 @@ const PricingCardView = ({
 
                   {/* 倍率信息（可选） */}
                   {showRatio && (
-                    <div className='pt-3'>
+                    <div className='pt-3 mt-3 border-t border-[var(--semi-color-border)]/30'>
                       <div className='flex items-center space-x-1 mb-2'>
-                        <span className='text-xs font-medium text-gray-700'>
+                        <span className='text-xs font-medium text-[var(--semi-color-text-1)]'>
                           {t('倍率信息')}
                         </span>
                         <Tooltip
                           content={t('倍率是为了方便换算不同价格的模型')}
                         >
                           <IconHelpCircle
-                            className='text-blue-500 cursor-pointer'
+                            className='text-[var(--brand-color)] cursor-pointer hover:opacity-80 transition-opacity'
                             size='small'
                             onClick={(e) => {
                               e.stopPropagation();
@@ -332,7 +333,7 @@ const PricingCardView = ({
                           />
                         </Tooltip>
                       </div>
-                      <div className='grid grid-cols-3 gap-2 text-xs text-gray-600'>
+                      <div className='grid grid-cols-3 gap-2 text-xs text-[var(--semi-color-text-2)]'>
                         <div>
                           {t('模型')}:{' '}
                           {model.quota_type === 0 ? model.model_ratio : t('无')}
@@ -358,7 +359,7 @@ const PricingCardView = ({
 
       {/* 分页 */}
       {filteredModels.length > 0 && (
-        <div className='flex justify-center mt-6 py-4 border-t pricing-pagination-divider'>
+        <div className='flex justify-center mt-8 py-6 border-t border-[var(--semi-color-border)]/30 pricing-pagination-divider'>
           <Pagination
             currentPage={currentPage}
             pageSize={pageSize}

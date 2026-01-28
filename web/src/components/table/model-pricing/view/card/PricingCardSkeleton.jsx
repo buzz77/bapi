@@ -26,13 +26,13 @@ const PricingCardSkeleton = ({
   showRatio = false,
 }) => {
   const placeholder = (
-    <div className='px-2 pt-2'>
-      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4'>
+    <div className='px-4 pt-4'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-5'>
         {Array.from({ length: skeletonCount }).map((_, index) => (
           <Card
             key={index}
-            className='!rounded-2xl border border-gray-200'
-            bodyStyle={{ padding: '24px' }}
+            className='glass-card !p-6 animate-pulse'
+            bodyStyle={{ padding: 0 }}
           >
             {/* 头部：图标 + 模型名称 + 操作按钮 */}
             <div className='flex items-start justify-between mb-3'>
@@ -107,7 +107,7 @@ const PricingCardSkeleton = ({
 
             {/* 倍率信息骨架（可选） */}
             {showRatio && (
-              <div className='mt-4 pt-3 border-t border-gray-100'>
+              <div className='mt-4 pt-3 border-t border-[var(--semi-color-border)]/30'>
                 <div className='flex items-center space-x-1 mb-2'>
                   <Skeleton.Title
                     style={{ width: 60, height: 12, marginBottom: 0 }}
@@ -132,7 +132,7 @@ const PricingCardSkeleton = ({
       </div>
 
       {/* 分页骨架 */}
-      <div className='flex justify-center mt-6 py-4 border-t pricing-pagination-divider'>
+      <div className='flex justify-center mt-8 py-6 border-t border-[var(--semi-color-border)]/30 pricing-pagination-divider'>
         <Skeleton.Button style={{ width: 300, height: 32 }} />
       </div>
     </div>

@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import { Card, Avatar, Tag, Divider, Empty } from '@douyinfe/semi-ui';
+import { Tag, Divider, Empty } from '@douyinfe/semi-ui';
 import { Server, Gauge, ExternalLink } from 'lucide-react';
 import {
   IllustrationConstruction,
@@ -36,30 +36,28 @@ const ApiInfoPanel = ({
   t,
 }) => {
   return (
-    <Card
-      {...CARD_PROPS}
-      className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)]'
-      title={
-        <div className={`${FLEX_CENTER_GAP2} text-[var(--semi-color-text-0)] font-medium`}>
+    <div className='glass-card hover:scale-[1.02] transition-all duration-300'>
+      <div className='flex items-center gap-2 mb-4'>
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white shadow-md" style={{backgroundColor: 'var(--semi-color-primary)'}}>
           <Server size={16} />
-          {t('API信息')}
         </div>
-      }
-      bodyStyle={{ padding: 0 }}
-    >
+        <h3 className="text-sm font-semibold text-[var(--semi-color-text-1)]">
+          {t('API信息')}
+        </h3>
+      </div>
       <ScrollableContainer maxHeight='24rem'>
         {apiInfoData.length > 0 ? (
           apiInfoData.map((api) => (
             <React.Fragment key={api.id}>
-              <div className='flex p-4 hover:bg-[var(--semi-color-fill-0)] rounded-lg transition-colors cursor-pointer'>
+              <div className='flex p-4 hover:bg-[var(--semi-color-fill-0)] rounded-lg transition-all duration-200 cursor-pointer'>
                 <div className='flex-shrink-0 mr-3'>
-                  <Avatar size='extra-small' color={api.color}>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-medium shadow-md transition-transform hover:scale-110" style={{backgroundColor: api.color || 'var(--semi-color-primary)'}}>
                     {api.route.substring(0, 2)}
-                  </Avatar>
+                  </div>
                 </div>
                 <div className='flex-1'>
                   <div className='flex flex-wrap items-center justify-between mb-1 w-full gap-2'>
-                    <span className='text-sm text-[var(--semi-color-text-0)] font-medium break-all'>
+                    <span className='text-sm text-[var(--semi-color-text-0)] font-semibold break-all'>
                       {api.route}
                     </span>
                     <div className='flex items-center gap-1 mt-1 lg:mt-0'>
@@ -112,7 +110,7 @@ const ApiInfoPanel = ({
           </div>
         )}
       </ScrollableContainer>
-    </Card>
+    </div>
   );
 };
 

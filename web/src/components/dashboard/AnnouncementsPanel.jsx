@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import { Card, Tag, Timeline, Empty } from '@douyinfe/semi-ui';
+import { Tag, Timeline, Empty } from '@douyinfe/semi-ui';
 import { Bell } from 'lucide-react';
 import { marked } from 'marked';
 import {
@@ -35,47 +35,45 @@ const AnnouncementsPanel = ({
   t,
 }) => {
   return (
-    <Card
-      {...CARD_PROPS}
-      className='bg-[var(--semi-color-bg-1)] rounded-lg border border-[var(--semi-color-border)] lg:col-span-2'
-      title={
-        <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 w-full'>
-          <div className='flex items-center gap-2 text-[var(--semi-color-text-0)] font-medium'>
+    <div className='glass-card hover:scale-[1.02] transition-all duration-300 lg:col-span-2'>
+      <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 w-full mb-4'>
+        <div className='flex items-center gap-2'>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white shadow-md" style={{backgroundColor: 'var(--semi-color-primary)'}}>
             <Bell size={16} />
+          </div>
+          <h3 className="text-sm font-semibold text-[var(--semi-color-text-1)]">
             {t('系统公告')}
-            <Tag color='white' shape='circle'>
-              {t('显示最新20条')}
-            </Tag>
-          </div>
-          {/* 图例 */}
-          <div className='flex flex-wrap gap-3 text-xs'>
-            {announcementLegendData.map((legend, index) => (
-              <div key={index} className='flex items-center gap-1'>
-                <div
-                  className='w-2 h-2 rounded-full'
-                  style={{
-                    backgroundColor:
-                      legend.color === 'grey'
-                        ? '#8b9aa7'
-                        : legend.color === 'blue'
-                          ? '#3b82f6'
-                          : legend.color === 'green'
-                            ? '#10b981'
-                            : legend.color === 'orange'
-                              ? '#f59e0b'
-                              : legend.color === 'red'
-                                ? '#ef4444'
-                                : '#8b9aa7',
-                  }}
-                />
-                <span className='text-[var(--semi-color-text-2)]'>{legend.label}</span>
-              </div>
-            ))}
-          </div>
+          </h3>
+          <Tag color='white' shape='circle'>
+            {t('显示最新20条')}
+          </Tag>
         </div>
-      }
-      bodyStyle={{ padding: 0 }}
-    >
+        {/* 图例 */}
+        <div className='flex flex-wrap gap-3 text-xs'>
+          {announcementLegendData.map((legend, index) => (
+            <div key={index} className='flex items-center gap-1'>
+              <div
+                className='w-2 h-2 rounded-full'
+                style={{
+                  backgroundColor:
+                    legend.color === 'grey'
+                      ? '#8b9aa7'
+                      : legend.color === 'blue'
+                        ? '#3b82f6'
+                        : legend.color === 'green'
+                          ? '#10b981'
+                          : legend.color === 'orange'
+                            ? '#f59e0b'
+                            : legend.color === 'red'
+                              ? '#ef4444'
+                              : '#8b9aa7',
+                }}
+              />
+              <span className='text-[var(--semi-color-text-2)]'>{legend.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
       <ScrollableContainer maxHeight='24rem'>
         {announcementData.length > 0 ? (
           <Timeline mode='left'>
@@ -119,7 +117,7 @@ const AnnouncementsPanel = ({
           </div>
         )}
       </ScrollableContainer>
-    </Card>
+    </div>
   );
 };
 

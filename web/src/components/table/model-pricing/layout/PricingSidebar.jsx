@@ -91,14 +91,14 @@ const PricingSidebar = ({
     });
 
   return (
-    <div className='p-2'>
-      <div className='flex items-center justify-between mb-6'>
-        <div className='text-lg font-semibold text-[var(--semi-color-text-0)]'>{t('筛选')}</div>
+    <div className='p-6'>
+      <div className='flex items-center justify-between mb-8'>
+        <div className='text-xl font-bold text-[var(--semi-color-text-0)] tracking-tight'>{t('筛选')}</div>
         <Button
           theme='outline'
           type='tertiary'
           onClick={handleResetFilters}
-          className='text-[var(--semi-color-text-2)] hover:text-[var(--semi-color-text-0)]'
+          className='text-[var(--semi-color-text-2)] hover:text-[var(--brand-color)] hover:border-[var(--brand-color)] transition-all duration-300'
         >
           {t('重置')}
         </Button>
