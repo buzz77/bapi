@@ -47,7 +47,7 @@ const HeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
   const { mainNavLinks } = useNavigation(t, docsLink, headerNavModules);
 
   return (
-    <header className='w-full h-full flex items-center justify-between px-4 bg-[var(--semi-color-bg-1)] border-b border-[var(--semi-color-border)]'>
+    <header className='w-full h-full flex items-center justify-between px-4 md:px-6 bg-[var(--semi-color-bg-1)] border-b border-[var(--semi-color-border)] backdrop-blur-sm'>
       <NoticeModal
         visible={noticeVisible}
         onClose={handleNoticeClose}

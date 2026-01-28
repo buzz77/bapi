@@ -348,23 +348,25 @@ const RegisterForm = () => {
 
   const renderOAuthOptions = () => {
     return (
-      <div className='flex flex-col items-center justify-center min-h-[500px]'>
+      <div className='flex flex-col items-center justify-center min-h-[500px] py-12'>
         <div className='w-full max-w-md'>
-          <div className='text-center mb-10'>
-            <img src={logo} alt='Logo' className='h-16 w-16 rounded-2xl shadow-lg mx-auto mb-4' />
-            <h2 className='text-3xl font-bold text-slate-900 dark:text-white tracking-tight'>
+          <div className='text-center mb-8 animate-fade-in'>
+            <img src={logo} alt='Logo' className='h-20 w-20 rounded-2xl shadow-xl mx-auto mb-5 hover:scale-110 transition-all duration-300' style={{
+               boxShadow: '0 10px 40px rgba(255, 213, 42, 0.3)',
+             }} />
+            <h2 className='text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-2'>
               {systemName}
             </h2>
-            <p className='mt-2 text-slate-500 dark:text-slate-400'>
+            <p className='mt-3 text-base text-slate-600 dark:text-slate-300'>
               {t('创建新账户以开启您的旅程')}
             </p>
           </div>
 
-          <div className='modern-card glass p-8 animate-fade-in-up'>
-            <div className='space-y-4'>
+          <div className='glass-card-enhanced rounded-2xl p-8 animate-slide-in-up shadow-2xl'>
+            <div className='space-y-3'>
               {status.wechat_login && (
                 <Button
-                  className='w-full h-12 !rounded-xl !font-medium shadow-sm hover:!bg-green-50'
+                  className='w-full h-12 !rounded-xl !font-semibold shadow-sm hover:!bg-green-50 dark:hover:!bg-green-900/20 transition-all duration-300 hover:scale-[1.02]'
                   type='tertiary'
                   icon={
                     <Icon svg={<WeChatIcon />} style={{ color: '#07C160' }} />
@@ -378,7 +380,7 @@ const RegisterForm = () => {
 
               {status.github_oauth && (
                 <Button
-                  className='w-full h-12 !rounded-xl !font-medium shadow-sm hover:!bg-slate-50 dark:hover:!bg-slate-800'
+                  className='w-full h-12 !rounded-xl !font-semibold shadow-sm hover:!bg-slate-50 dark:hover:!bg-slate-800 transition-all duration-300 hover:scale-[1.02]'
                   type='tertiary'
                   icon={<IconGithubLogo size='large' />}
                   onClick={handleGitHubClick}
@@ -391,7 +393,7 @@ const RegisterForm = () => {
 
               {status.discord_oauth && (
                 <Button
-                  className='w-full h-12 !rounded-xl !font-medium shadow-sm hover:!bg-indigo-50'
+                  className='w-full h-12 !rounded-xl !font-semibold shadow-sm hover:!bg-indigo-50 dark:hover:!bg-indigo-900/20 transition-all duration-300 hover:scale-[1.02]'
                   type='tertiary'
                   icon={
                     <SiDiscord
@@ -411,7 +413,7 @@ const RegisterForm = () => {
 
               {status.oidc_enabled && (
                 <Button
-                  className='w-full h-12 !rounded-xl !font-medium shadow-sm hover:!bg-blue-50'
+                  className='w-full h-12 !rounded-xl !font-semibold shadow-sm hover:!bg-blue-50 dark:hover:!bg-blue-900/20 transition-all duration-300 hover:scale-[1.02]'
                   type='tertiary'
                   icon={<OIDCIcon style={{ color: '#1877F2' }} />}
                   onClick={handleOIDCClick}
@@ -423,7 +425,7 @@ const RegisterForm = () => {
 
               {status.linuxdo_oauth && (
                 <Button
-                  className='w-full h-12 !rounded-xl !font-medium shadow-sm hover:!bg-orange-50'
+                  className='w-full h-12 !rounded-xl !font-semibold shadow-sm hover:!bg-orange-50 dark:hover:!bg-orange-900/20 transition-all duration-300 hover:scale-[1.02]'
                   type='tertiary'
                   icon={
                     <LinuxDoIcon
@@ -452,17 +454,17 @@ const RegisterForm = () => {
 
               <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+                    <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white dark:bg-slate-900 text-slate-500">{t('或')}</span>
+                    <span className="px-3 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 font-medium">{t('或')}</span>
                   </div>
               </div>
 
               <Button
                 theme='solid'
                 type='primary'
-                className='w-full h-12 !rounded-xl !text-base !font-bold shadow-glow hover:scale-[1.02] transition-transform'
+                className='w-full h-13 !rounded-xl !text-base !font-bold shadow-glow hover:scale-[1.03] transition-all duration-300'
                 icon={<IconMail size='large' />}
                 onClick={handleEmailRegisterClick}
                 loading={emailRegisterLoading}
@@ -472,11 +474,11 @@ const RegisterForm = () => {
             </div>
 
             <div className='mt-8 text-center'>
-              <p className='text-sm text-slate-500 dark:text-slate-400'>
+              <p className='text-sm text-slate-600 dark:text-slate-400'>
                 {t('已有账户？')}{' '}
                 <Link
                   to='/login'
-                  className='ml-2 font-semibold text-primary-600 hover:text-primary-700 transition-colors'
+                  className='ml-2 font-bold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors'
                 >
                   {t('立即登录')}
                 </Link>
@@ -490,23 +492,25 @@ const RegisterForm = () => {
 
   const renderEmailRegisterForm = () => {
     return (
-      <div className='flex flex-col items-center justify-center min-h-[500px]'>
+      <div className='flex flex-col items-center justify-center min-h-[500px] py-12'>
         <div className='w-full max-w-md'>
-          <div className='text-center mb-10'>
-            <img src={logo} alt='Logo' className='h-16 w-16 rounded-2xl shadow-lg mx-auto mb-4' />
-            <h2 className='text-3xl font-bold text-slate-900 dark:text-white tracking-tight'>
+          <div className='text-center mb-8 animate-fade-in'>
+            <img src={logo} alt='Logo' className='h-20 w-20 rounded-2xl shadow-xl mx-auto mb-5 hover:scale-110 transition-all duration-300' style={{
+               boxShadow: '0 10px 40px rgba(255, 213, 42, 0.3)',
+             }} />
+            <h2 className='text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-2'>
               {t('注册账号')}
             </h2>
-            <p className='mt-2 text-slate-500 dark:text-slate-400'>
+            <p className='mt-3 text-base text-slate-600 dark:text-slate-300'>
               {t('请填写以下信息以完成注册')}
             </p>
           </div>
 
-          <div className='modern-card glass p-8 animate-fade-in-up'>
+          <div className='glass-card-enhanced rounded-2xl p-8 animate-slide-in-up shadow-2xl'>
             <Form className='space-y-4'>
               <Form.Input
                 field='username'
-                label={t('用户名')}
+                label={<span className='text-slate-700 dark:text-slate-300 font-semibold'>{t('用户名')}</span>}
                 placeholder={t('设置一个用户名')}
                 name='username'
                 size='large'
@@ -517,7 +521,7 @@ const RegisterForm = () => {
 
               <Form.Input
                 field='password'
-                label={t('密码')}
+                label={<span className='text-slate-700 dark:text-slate-300 font-semibold'>{t('密码')}</span>}
                 placeholder={t('设置密码 (8-20位)')}
                 name='password'
                 mode='password'
@@ -529,7 +533,7 @@ const RegisterForm = () => {
 
               <Form.Input
                 field='password2'
-                label={t('确认密码')}
+                label={<span className='text-slate-700 dark:text-slate-300 font-semibold'>{t('确认密码')}</span>}
                 placeholder={t('再次输入密码')}
                 name='password2'
                 mode='password'
@@ -543,7 +547,7 @@ const RegisterForm = () => {
                 <>
                   <Form.Input
                     field='email'
-                    label={t('邮箱')}
+                    label={<span className='text-slate-700 dark:text-slate-300 font-semibold'>{t('邮箱')}</span>}
                     placeholder={t('your@email.com')}
                     name='email'
                     type='email'
@@ -554,7 +558,7 @@ const RegisterForm = () => {
                     suffix={
                       <Button
                         type='tertiary'
-                        className='!text-primary-600 !font-medium'
+                        className='!text-amber-600 dark:!text-amber-400 !font-semibold hover:!text-amber-700 dark:hover:!text-amber-300 transition-colors'
                         onClick={sendVerificationCode}
                         loading={verificationCodeLoading}
                         disabled={disableButton || verificationCodeLoading}
@@ -567,7 +571,7 @@ const RegisterForm = () => {
                   />
                   <Form.Input
                     field='verification_code'
-                    label={t('验证码')}
+                    label={<span className='text-slate-700 dark:text-slate-300 font-semibold'>{t('验证码')}</span>}
                     placeholder={t('请输入邮箱验证码')}
                     name='verification_code'
                     size='large'
@@ -586,14 +590,14 @@ const RegisterForm = () => {
                     checked={agreedToTerms}
                     onChange={(e) => setAgreedToTerms(e.target.checked)}
                   >
-                    <Text size='small' className='text-slate-500 dark:text-slate-400'>
+                    <Text size='small' className='text-slate-600 dark:text-slate-400'>
                       {t('我已阅读并同意')}
                       {hasUserAgreement && (
                           <a
                             href='/user-agreement'
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='text-primary-600 hover:text-primary-700 font-medium mx-1'
+                            className='text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 font-semibold mx-1 transition-colors'
                           >
                             {t('用户协议')}
                           </a>
@@ -604,7 +608,7 @@ const RegisterForm = () => {
                             href='/privacy-policy'
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='text-primary-600 hover:text-primary-700 font-medium mx-1'
+                            className='text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 font-semibold mx-1 transition-colors'
                           >
                             {t('隐私政策')}
                           </a>
@@ -618,7 +622,7 @@ const RegisterForm = () => {
                 theme='solid'
                 type='primary'
                 htmlType='submit'
-                className='w-full h-12 !rounded-xl !text-base !font-bold shadow-glow mt-4'
+                className='w-full h-13 !rounded-xl !text-base !font-bold shadow-glow mt-4 hover:scale-[1.03] transition-all duration-300'
                 onClick={handleSubmit}
                 loading={registerLoading}
                 disabled={
@@ -638,17 +642,17 @@ const RegisterForm = () => {
               <>
                  <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+                      <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white dark:bg-slate-900 text-slate-500">{t('或')}</span>
+                      <span className="px-3 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 font-medium">{t('或')}</span>
                     </div>
                 </div>
 
                 <Button
                   theme='outline'
                   type='tertiary'
-                  className='w-full h-12 !rounded-xl'
+                  className='w-full h-12 !rounded-xl hover:scale-[1.02] transition-all duration-300'
                   onClick={handleOtherRegisterOptionsClick}
                   loading={otherRegisterOptionsLoading}
                 >
@@ -658,11 +662,11 @@ const RegisterForm = () => {
             )}
 
             <div className='mt-8 text-center'>
-              <p className='text-sm text-slate-500 dark:text-slate-400'>
+              <p className='text-sm text-slate-600 dark:text-slate-400'>
                 {t('已有账户？')}{' '}
                 <Link
                   to='/login'
-                  className='ml-2 font-semibold text-primary-600 hover:text-primary-700 transition-colors'
+                  className='ml-2 font-bold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors'
                 >
                   {t('立即登录')}
                 </Link>
@@ -713,12 +717,76 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className='relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-surface-light dark:bg-surface-dark transition-colors duration-300'>
-       {/* 动态背景球 */}
-       <div className='absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-primary-300/20 blur-[120px] animate-pulse-slow pointer-events-none mix-blend-multiply dark:mix-blend-screen'></div>
-       <div className='absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-400/10 blur-[140px] animate-pulse-slow pointer-events-none mix-blend-multiply dark:mix-blend-screen' style={{animationDelay: '3s'}}></div>
+    <div className='relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-colors duration-300' style={{
+      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+    }}>
+      {/* 深色模式渐变背景 */}
+      <style>{`
+        body[theme-mode='dark'] .auth-container {
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
 
-      <div className='w-full relative z-10 px-4 mt-8 mb-8'>
+        /* 动态背景球动画 */
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 0.6;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(1.05);
+          }
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 8s ease-in-out infinite;
+        }
+
+        /* 玻璃态卡片增强 */
+        .glass-card-enhanced {
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        body[theme-mode='dark'] .glass-card-enhanced {
+          background: rgba(15, 23, 42, 0.7);
+          border: 1px solid rgba(148, 163, 184, 0.15);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 输入框增强样式 */
+        .semi-input-wrapper {
+          transition: all 0.3s ease;
+        }
+
+        .semi-input-wrapper:focus-within {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(255, 213, 42, 0.2);
+        }
+
+        /* 按钮发光效果 */
+        .shadow-glow {
+          box-shadow: 0 4px 14px rgba(255, 213, 42, 0.4);
+        }
+
+        .shadow-glow:hover {
+          box-shadow: 0 6px 20px rgba(255, 213, 42, 0.5);
+        }
+      `}</style>
+
+       {/* 动态背景球 - 使用品牌色琥珀黄 */}
+       <div className='absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] animate-pulse-slow pointer-events-none' style={{
+        background: 'radial-gradient(circle, rgba(255, 213, 42, 0.3) 0%, rgba(255, 213, 42, 0.1) 50%, transparent 100%)',
+      }}></div>
+       <div className='absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[140px] animate-pulse-slow pointer-events-none' style={{
+        background: 'radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.05) 50%, transparent 100%)',
+        animationDelay: '3s',
+      }}></div>
+
+      <div className='w-full relative z-10 px-4 mt-8 mb-8 auth-container'>
         {showEmailRegister ||
         !(
           status.github_oauth ||
@@ -742,8 +810,8 @@ const RegisterForm = () => {
             />
           </div>
         )}
-         <div className="absolute -bottom-6 w-full text-center">
-             <Text className="text-xs text-slate-400 opacity-60">
+         <div className="fixed bottom-6 w-full text-center">
+             <Text className="text-xs text-slate-400 dark:text-slate-500 opacity-60">
                 &copy; {new Date().getFullYear()} {systemName}. All rights reserved.
              </Text>
         </div>
